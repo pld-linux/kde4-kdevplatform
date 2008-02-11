@@ -20,10 +20,10 @@ kdevplatform
 kdevplatform
 
 %package devel
-Summary:        kdevplatform - header files and development documentation
-Summary(pl.UTF-8):      kdevplatform - pliki nagłówkowe i dokumentacja
-Group:          X11/Development/Libraries
-Requires:       %{name} = %{version}-%{release}
+Summary:	kdevplatform - header files and development documentation
+Summary(pl.UTF-8):	kdevplatform - pliki nagłówkowe i dokumentacja
+Group:		X11/Development/Libraries
+Requires:	%{name} = %{version}-%{release}
 
 %description devel
 This package contains header files and development documentation for
@@ -58,7 +58,7 @@ rm -rf $RPM_BUILD_ROOT
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
-%files 
+%files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_bgsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_ccsettings.so
