@@ -4,12 +4,12 @@
 Summary:	kdevplatform
 Summary(pl.UTF-8):	kdevplatform
 Name:		kde4-kdevplatform
-Version:	4.0.61
-Release:	1
+Version:	4.0.65
+Release:	0.1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	ea50cdb6debeed72f4591fe389f888d2
+# Source0-md5:	bf1bb56573a6202f70b0de6b18845908
 URL:		http://www.kdevelop.org/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
