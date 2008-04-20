@@ -4,12 +4,12 @@
 Summary:	kdevplatform
 Summary(pl.UTF-8):	kdevplatform
 Name:		kde4-kdevplatform
-Version:	4.0.65
+Version:	4.0.70
 Release:	0.1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/%{version}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	bf1bb56573a6202f70b0de6b18845908
+# Source0-md5:	3f27dd1deb15c6cc4959dcbfd8a9b0df
 URL:		http://www.kdevelop.org/
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -79,6 +79,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevsnippet.so
 %attr(755,root,root) %{_libdir}/kde4/kdevstandardoutputview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevusehighlight.so
+%attr(755,root,root) %{_libdir}/kde4/kdevsubversion.so
 
 %attr(755,root,root) %{_libdir}/libkdevplatformeditor.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformeditor.so.*.*.*
