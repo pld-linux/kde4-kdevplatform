@@ -63,6 +63,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_bgsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_ccsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_envsettings.so
+%attr(755,root,root) %{_libdir}/kde4/kcm_kdev_genericprojectmanagersettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_projectsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_runsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_uisettings.so
