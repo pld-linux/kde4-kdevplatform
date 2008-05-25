@@ -108,7 +108,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/apps/kdevprojectmanagerview
 %dir %{_datadir}/apps/kdevquickopen
 %{_datadir}/kde4/services/*.desktop
-%{_datadir}/apps/cmake/modules/FindKDevPlatform.cmake
 %{_datadir}/apps/kdevclassbrowser/kdevclassbrowser.rc
 %{_datadir}/apps/kdevcvs/kdevcvs.rc
 %{_datadir}/apps/kdevduchainview/kdevduchainview.rc
@@ -131,3 +130,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libkdevplatformutil.so
 %{_libdir}/libkdevplatformvcs.so
 %{_libdir}/libsublime.so
+%{_datadir}/apps/cmake/modules/FindKDevPlatform.cmake
