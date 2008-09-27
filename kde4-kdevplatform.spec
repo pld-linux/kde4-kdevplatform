@@ -1,16 +1,16 @@
 %define		_state		unstable
 %define		orgname		kdevplatform
-%define		_rel		856473
+%define		_rel		863954
 
 Summary:	kdevplatform
 Summary(pl.UTF-8):	kdevplatform
 Name:		kde4-kdevplatform
-Version:	4.1.65
+Version:	4.1.67
 Release:	0.%{_rel}.1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/snapshots/%{orgname}-%{_rel}.tar.bz2
-# Source0-md5:	74a1fc3fc9136432f09650832f54be5b
+# Source0-md5:	78ce8758205ddea291d52a1382cb2051
 URL:		http://www.kdevelop.org/
 BuildRequires:	commoncpp2-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -115,7 +115,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevstandardoutputview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevsubversion.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcontextbrowser.so
-
+%attr(755,root,root) %{_libdir}/kde4/kcm_kdevsourceformattersettings.so
+%attr(755,root,root) %{_libdir}/kde4/kdevsourceformatter.so
 %dir %{_datadir}/apps/kdevstandardoutputview
 %{_datadir}/apps/kdevstandardoutputview/kdevstandardoutputview.rc
 %dir %{_datadir}/apps/kdevclassbrowser
@@ -144,6 +145,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevhg/kdevhg.rc
 %dir %{_datadir}/apps/kdevteamwork
 %{_datadir}/apps/kdevteamwork/kdevteamwork.rc
+%dir %{_datadir}/apps/kdevsourceformatter
+%{_datadir}/apps/kdevsourceformatter/kdevsourceformatter.rc
 
 %{_datadir}/kde4/services/*.desktop
 %{_datadir}/kde4/servicetypes/kdevelopplugin.desktop
