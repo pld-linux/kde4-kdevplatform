@@ -1,0 +1,11 @@
+diff -ur kdevplatform-880297/kross/CMakeLists.txt mod/kross/CMakeLists.txt
+--- kdevplatform-880297/kross/CMakeLists.txt	2008-11-05 05:59:18.000000000 +0100
++++ mod/kross/CMakeLists.txt	2008-11-08 15:17:45.847707040 +0100
+@@ -79,7 +79,6 @@
+     wrappers/krossiprojectfilemanager.cpp
+     wrappers/krossiprojectbuilder.cpp
+     wrappers/krossirun.cpp
+-    wrappers/krosseditorcontext.cpp
+ )
+ 
+ kde4_add_plugin(kdevkrossplugin ${kdevkrossplugin_SRCS})
