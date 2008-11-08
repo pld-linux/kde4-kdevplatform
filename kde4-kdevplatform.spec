@@ -1,16 +1,17 @@
 %define		_state		unstable
 %define		orgname		kdevplatform
-%define		_rel		863954
+%define		_rel		880297
 
 Summary:	kdevplatform
 Summary(pl.UTF-8):	kdevplatform
 Name:		kde4-kdevplatform
-Version:	4.1.67
+Version:	4.1.72
 Release:	0.%{_rel}.1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/snapshots/%{orgname}-%{_rel}.tar.bz2
-# Source0-md5:	78ce8758205ddea291d52a1382cb2051
+# Source0-md5:	d7cabd6787b6cf9b9812b67982c0adfc
+Patch0:		%{name}-cmake.patch
 URL:		http://www.kdevelop.org/
 BuildRequires:	commoncpp2-devel
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -37,6 +38,7 @@ pisaniu własnych programów wykorzystujących kdevplatform.
 
 %prep
 %setup -q -n %{orgname}-%{_rel}
+%patch0 -p1
 
 %build
 mkdir build
@@ -63,7 +65,7 @@ rm -rf $RPM_BUILD_ROOT
 %files
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/kdevteamwork_server
-%attr(755,root,root) %{_bindir}/lcov_geninfo
+#%attr(755,root,root) %{_bindir}/lcov_geninfo
 
 %attr(755,root,root) %{_libdir}/libkdevplatforminterfaces.so.*.*.*
 %attr(755,root,root) %{_libdir}/libkdevplatforminterfaces.so.?
@@ -75,6 +77,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libkdevplatformproject.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformshell.so.*.*.*
 %attr(755,root,root) %{_libdir}/libkdevplatformshell.so.?
+%attr(755,root,root) %{_libdir}/libkdevplatformtestshell.so.*.*.*
+%attr(755,root,root) %{_libdir}/libkdevplatformtestshell.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformutil.so.*.*.*
 %attr(755,root,root) %{_libdir}/libkdevplatformutil.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformvcs.so.*.*.*
@@ -84,11 +88,11 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libdiff2.so
 %attr(755,root,root) %{_libdir}/libdynamictext.so
 %attr(755,root,root) %{_libdir}/libkdevplatformveritas.so
-%attr(755,root,root) %{_libdir}/libkdevveritascoverage.so
+#%attr(755,root,root) %{_libdir}/libkdevveritascoverage.so
 %attr(755,root,root) %{_libdir}/libnetwork.so
 
 %attr(755,root,root) %{_libdir}/kde4/kdevbzr.so
-%attr(755,root,root) %{_libdir}/kde4/kdevcoverage.so
+#%attr(755,root,root) %{_libdir}/kde4/kdevcoverage.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgit.so
 %attr(755,root,root) %{_libdir}/kde4/kdevhg.so
 %attr(755,root,root) %{_libdir}/kde4/kdevkrossplugin.so
@@ -101,7 +105,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_projectsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_runsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_uisettings.so
-%attr(755,root,root) %{_libdir}/kde4/kdevclassbrowser.so
+#%attr(755,root,root) %{_libdir}/kde4/kdevclassbrowser.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcvs.so
 %attr(755,root,root) %{_libdir}/kde4/kdevduchainview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevexecute.so
@@ -119,8 +123,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevsourceformatter.so
 %dir %{_datadir}/apps/kdevstandardoutputview
 %{_datadir}/apps/kdevstandardoutputview/kdevstandardoutputview.rc
-%dir %{_datadir}/apps/kdevclassbrowser
-%{_datadir}/apps/kdevclassbrowser/kdevclassbrowser.rc
+#%dir %{_datadir}/apps/kdevclassbrowser
+#%{_datadir}/apps/kdevclassbrowser/kdevclassbrowser.rc
 %dir %{_datadir}/apps/kdevbzr
 %{_datadir}/apps/kdevbzr/kdevbzr.rc
 %dir %{_datadir}/apps/kdevcvs
@@ -137,8 +141,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevquickopen/kdevquickopen.rc
 %dir %{_datadir}/apps/kdevcontextbrowser
 %{_datadir}/apps/kdevcontextbrowser/kdevcontextbrowser.rc
-%dir %{_datadir}/apps/kdevcoverage
-%{_datadir}/apps/kdevcoverage/kdevcoverage.rc
+#%dir %{_datadir}/apps/kdevcoverage
+#%{_datadir}/apps/kdevcoverage/kdevcoverage.rc
 %dir %{_datadir}/apps/kdevgit
 %{_datadir}/apps/kdevgit/kdevgit.rc
 %dir %{_datadir}/apps/kdevhg
@@ -160,7 +164,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libkdevplatformoutputview.so
 %{_libdir}/libkdevplatformproject.so
 %{_libdir}/libkdevplatformshell.so
+%{_libdir}/libkdevplatformtestshell.so
 %{_libdir}/libkdevplatformutil.so
 %{_libdir}/libkdevplatformvcs.so
 %{_libdir}/libsublime.so
 %{_datadir}/apps/cmake/modules/FindKDevPlatform.cmake
+%{_libdir}/kdevplatform/KDevPlatformConfig.cmake
+%{_libdir}/kdevplatform/KDevPlatformConfigVersion.cmake
