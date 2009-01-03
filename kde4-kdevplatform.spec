@@ -160,6 +160,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %files devel
 %defattr(644,root,root,755)
+%dir %{_includedir}/kdevplatform
 %{_includedir}/kdevplatform
 #%{_libdir}/libkdevplatformeditor.so
 %{_libdir}/libkdevplatforminterfaces.so
