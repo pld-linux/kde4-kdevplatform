@@ -1,16 +1,16 @@
 %define		_state		unstable
 %define		orgname		kdevplatform
-%define		_rel		880297
+%define		_rel		905205
 
 Summary:	kdevplatform
 Summary(pl.UTF-8):	kdevplatform
 Name:		kde4-kdevplatform
-Version:	4.1.72
+Version:	4.1.85
 Release:	0.%{_rel}.1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/snapshots/%{orgname}-%{_rel}.tar.bz2
-# Source0-md5:	d7cabd6787b6cf9b9812b67982c0adfc
+# Source0-md5:	f3fddd40212d8cea3063c559ba9dc5f5
 Patch0:		%{name}-cmake.patch
 URL:		http://www.kdevelop.org/
 BuildRequires:	commoncpp2-devel
@@ -41,7 +41,7 @@ pisaniu własnych programów wykorzystujących kdevplatform.
 %patch0 -p1
 
 %build
-mkdir build
+install -d build
 cd build
 %cmake \
 	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
@@ -85,23 +85,25 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libkdevplatformvcs.so.?
 %attr(755,root,root) %{_libdir}/libsublime.so.*.*.*
 %attr(755,root,root) %{_libdir}/libsublime.so.?
-%attr(755,root,root) %{_libdir}/libdiff2.so
-%attr(755,root,root) %{_libdir}/libdynamictext.so
-%attr(755,root,root) %{_libdir}/libkdevplatformveritas.so
+%attr(755,root,root) %{_libdir}/libkdevplatformveritas.so.*.*.*
+%attr(755,root,root) %{_libdir}/libkdevplatformveritas.so.?
 #%attr(755,root,root) %{_libdir}/libkdevveritascoverage.so
-%attr(755,root,root) %{_libdir}/libnetwork.so
+%attr(755,root,root) %{_libdir}/libkdevteamwork_diff2.so
+%attr(755,root,root) %{_libdir}/libkdevteamwork_dynamictext.so
+%attr(755,root,root) %{_libdir}/libkdevteamwork_network.so
 
 %attr(755,root,root) %{_libdir}/kde4/kdevbzr.so
 #%attr(755,root,root) %{_libdir}/kde4/kdevcoverage.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgit.so
 %attr(755,root,root) %{_libdir}/kde4/kdevhg.so
-%attr(755,root,root) %{_libdir}/kde4/kdevkrossplugin.so
+#%attr(755,root,root) %{_libdir}/kde4/kdevkrossplugin.so
 %attr(755,root,root) %{_libdir}/kde4/kdevteamwork.so
 %attr(755,root,root) %{_libdir}/kde4/kdevvcscommon.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_bgsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_ccsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_envsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_genericprojectmanagersettings.so
+%attr(755,root,root) %{_libdir}/kde4/kcm_kdev_pluginsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_projectsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_runsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_uisettings.so
@@ -154,6 +156,7 @@ rm -rf $RPM_BUILD_ROOT
 
 %{_datadir}/kde4/services/*.desktop
 %{_datadir}/kde4/servicetypes/kdevelopplugin.desktop
+%{_iconsdir}/hicolor/*/actions/*.png
 
 %files devel
 %defattr(644,root,root,755)
@@ -167,7 +170,10 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libkdevplatformtestshell.so
 %{_libdir}/libkdevplatformutil.so
 %{_libdir}/libkdevplatformvcs.so
+%{_libdir}/libkdevplatformveritas.so
 %{_libdir}/libsublime.so
 %{_datadir}/apps/cmake/modules/FindKDevPlatform.cmake
 %{_libdir}/kdevplatform/KDevPlatformConfig.cmake
 %{_libdir}/kdevplatform/KDevPlatformConfigVersion.cmake
+%{_libdir}/kdevplatform/KDevPlatformTargets.cmake
+%{_libdir}/kdevplatform/KDevPlatformTargets-relwithdebinfo.cmake
