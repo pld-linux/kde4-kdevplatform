@@ -1,11 +1,58 @@
-diff -ur kdevplatform-880297/kross/CMakeLists.txt mod/kross/CMakeLists.txt
---- kdevplatform-880297/kross/CMakeLists.txt	2008-11-05 05:59:18.000000000 +0100
-+++ mod/kross/CMakeLists.txt	2008-11-08 15:17:45.847707040 +0100
-@@ -79,7 +79,6 @@
-     wrappers/krossiprojectfilemanager.cpp
-     wrappers/krossiprojectbuilder.cpp
-     wrappers/krossirun.cpp
--    wrappers/krosseditorcontext.cpp
- )
- 
- kde4_add_plugin(kdevkrossplugin ${kdevkrossplugin_SRCS})
+--- /dev/null	2009-01-03 16:46:16.404460840 +0100
++++ kdevplatform-905205/cmake/modules/BasicFindPackageVersion.cmake.in	2009-01-03 23:36:10.000000000 +0100
+@@ -0,0 +1,30 @@
++# This is a very basic file for the new style find_package() search mode,
++# i.e. Config-mode. It is used by MACRO_WRITE_BASIC_CMAKE_VERSION_FILE() from 
++# MacroWriteBasicCMakeVersionFile.cmake.
++# In this mode find_package() searches for a <package>Config.cmake 
++# file and an associated <package>Version.cmake file, which it loads to check 
++# the version number.
++# This file can be used with configure_file() to generate such a file for a project
++# with very basic logic.
++# It sets PACKAGE_VERSION_EXACT if the current version string and the requested
++# version string are exactly the same and it sets PACKAGE_VERSION_COMPATIBLE
++# if the current version is >= requested version.
++# If this is not good enough for your project, you need to write your own
++# improved <package>Version.cmake file.
++# This file requires the following three variables to be set:
++#   PROJECT_VERSION_MAJOR
++#   PROJECT_VERSION_MINOR
++#   PROJECT_VERSION_PATCH
++
++
++set(PACKAGE_VERSION @PROJECT_VERSION_MAJOR@.@PROJECT_VERSION_MINOR@.@PROJECT_VERSION_PATCH@)
++
++if("${PACKAGE_VERSION}" VERSION_LESS "${PACKAGE_FIND_VERSION}" )
++   set(PACKAGE_VERSION_COMPATIBLE FALSE)
++else("${PACKAGE_VERSION}" VERSION_LESS "${PACKAGE_FIND_VERSION}" )
++   set(PACKAGE_VERSION_COMPATIBLE TRUE)
++   if( "${PACKAGE_FIND_VERSION}" STREQUAL "${PACKAGE_VERSION}")
++      set(PACKAGE_VERSION_EXACT TRUE)
++   endif( "${PACKAGE_FIND_VERSION}" STREQUAL "${PACKAGE_VERSION}")
++endif("${PACKAGE_VERSION}" VERSION_LESS "${PACKAGE_FIND_VERSION}" )
++
+--- /dev/null	2009-01-03 16:46:16.404460840 +0100
++++ kdevplatform-905205/cmake/modules/MacroWriteBasicCMakeVersionFile.cmake	2009-01-03 23:33:20.000000000 +0100
+@@ -0,0 +1,22 @@
++#  MACRO_WRITE_BASIC_CMAKE_VERSION_FILE( _filename _major _minor _patch)
++#    Writes a file for use as <package>ConfigVersion.cmake file to <_filename>.
++#    See the documentation of FIND_PACKAGE() for details on this.
++#    _filename is the output filename, it should be in the build tree.
++#    _major is the major version number of the project to be installed
++#    _minor is the minor version number of the project to be installed
++#    _patch is the patch version number of the project to be installed
++#
++
++# Copyright (c) 2008, Alexander Neundorf, <neundorf@kde.org>
++#
++# Redistribution and use is allowed according to the terms of the BSD license.
++# For details see the accompanying COPYING-CMAKE-SCRIPTS file.
++
++get_filename_component(_currentListFileDir ${CMAKE_CURRENT_LIST_FILE} PATH)
++
++function(MACRO_WRITE_BASIC_CMAKE_VERSION_FILE _filename _major _minor _patch)
++   set(PROJECT_VERSION_MAJOR ${_major})
++   set(PROJECT_VERSION_MINOR ${_minor})
++   set(PROJECT_VERSION_PATCH ${_patch})
++   configure_file(${_currentListFileDir}/BasicFindPackageVersion.cmake.in "${_filename}" @ONLY)
++endfunction(MACRO_WRITE_BASIC_CMAKE_VERSION_FILE _major _minor _patch)
