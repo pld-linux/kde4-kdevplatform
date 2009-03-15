@@ -1,17 +1,18 @@
 %define		_state		unstable
 %define		orgname		kdevplatform
-%define		svnrev		903434
+#%define		svnrev		903434
+%define		_kdevelopver	3.9.91
 
 Summary:	kdevplatform
 Summary(pl.UTF-8):	kdevplatform
 Name:		kde4-kdevplatform
-Version:	4.1.85
-Release:	0.%{svnrev}.1
+Version:	0.9.91
+Release:	1
 License:	GPL
 Group:		X11/Development/Tools
-Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/snapshots/%{orgname}-%{svnrev}.tar.bz2
-# Source0-md5:	ddbf140406e2ab65b6d83f1c7f310739
-Patch0:		%{name}-cmake.patch
+Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
+# Source0-md5:	24de5a242aa1a19adb5f1b09344c13eb
+#Patch0:		%{name}-cmake.patch
 URL:		http://www.kdevelop.org/
 BuildRequires:	apr-devel
 BuildRequires:	apr-util-devel
@@ -44,8 +45,8 @@ Pakiet ten zawiera pliki nagłówkowe i dokumentację potrzebną przy
 pisaniu własnych programów wykorzystujących kdevplatform.
 
 %prep
-%setup -q -n %{orgname}-%{svnrev}
-%patch0 -p1
+%setup -q -n %{orgname}-%{version}
+#%patch0 -p1
 
 %build
 install -d build
@@ -108,17 +109,17 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_runsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdevsourceformattersettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_uisettings.so
-%attr(755,root,root) %{_libdir}/kde4/kdevbzr.so
+#%attr(755,root,root) %{_libdir}/kde4/kdevbzr.so
 #%attr(755,root,root) %{_libdir}/kde4/kdevclassbrowser.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcontextbrowser.so
 #%attr(755,root,root) %{_libdir}/kde4/kdevcoverage.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcvs.so
-%attr(755,root,root) %{_libdir}/kde4/kdevduchainview.so
+#%attr(755,root,root) %{_libdir}/kde4/kdevduchainview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevexecute.so
 %attr(755,root,root) %{_libdir}/kde4/kdevfilemanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgenericmanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgit.so
-%attr(755,root,root) %{_libdir}/kde4/kdevhg.so
+#%attr(755,root,root) %{_libdir}/kde4/kdevhg.so
 %attr(755,root,root) %{_libdir}/kde4/kdevkonsoleview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevkrossplugin.so
 %attr(755,root,root) %{_libdir}/kde4/kdevproblemreporter.so
@@ -130,16 +131,17 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevsubversion.so
 #%attr(755,root,root) %{_libdir}/kde4/kdevteamwork.so
 %attr(755,root,root) %{_libdir}/kde4/kdevvcscommon.so
+%attr(755,root,root) %{_libdir}/kde4/kdevappwizard.so
 %dir %{_datadir}/apps/kdevstandardoutputview
 %{_datadir}/apps/kdevstandardoutputview/kdevstandardoutputview.rc
 #%dir %{_datadir}/apps/kdevclassbrowser
 #%{_datadir}/apps/kdevclassbrowser/kdevclassbrowser.rc
-%dir %{_datadir}/apps/kdevbzr
-%{_datadir}/apps/kdevbzr/kdevbzr.rc
+#%dir %{_datadir}/apps/kdevbzr
+#%{_datadir}/apps/kdevbzr/kdevbzr.rc
 %dir %{_datadir}/apps/kdevcvs
 %{_datadir}/apps/kdevcvs/kdevcvs.rc
-%dir %{_datadir}/apps/kdevduchainview
-%{_datadir}/apps/kdevduchainview/kdevduchainview.rc
+#%dir %{_datadir}/apps/kdevduchainview
+#%{_datadir}/apps/kdevduchainview/kdevduchainview.rc
 %dir %{_datadir}/apps/kdevfilemanager
 %{_datadir}/apps/kdevfilemanager/kdevfilemanager.rc
 %dir %{_datadir}/apps/kdevproblemreporter
@@ -154,16 +156,17 @@ rm -rf $RPM_BUILD_ROOT
 #%{_datadir}/apps/kdevcoverage/kdevcoverage.rc
 %dir %{_datadir}/apps/kdevgit
 %{_datadir}/apps/kdevgit/kdevgit.rc
-%dir %{_datadir}/apps/kdevhg
-%{_datadir}/apps/kdevhg/kdevhg.rc
+#%dir %{_datadir}/apps/kdevhg
+#%{_datadir}/apps/kdevhg/kdevhg.rc
 #%dir %{_datadir}/apps/kdevteamwork
 #%{_datadir}/apps/kdevteamwork/kdevteamwork.rc
 %dir %{_datadir}/apps/kdevsourceformatter
 %{_datadir}/apps/kdevsourceformatter/kdevsourceformatter.rc
-
 %{_datadir}/kde4/services/*.desktop
 %{_datadir}/kde4/servicetypes/kdevelopplugin.desktop
 %{_iconsdir}/hicolor/*/actions/*.png
+%{_datadir}/apps/kdevappwizard/kdevappwizard.rc
+%{_datadir}/apps/kdevappwizard/template_previews/default-kdevelop.png
 
 %files devel
 %defattr(644,root,root,755)
