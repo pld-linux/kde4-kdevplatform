@@ -1,10 +1,11 @@
 %define		_state		unstable
 %define		orgname		kdevplatform
-#%define		svnrev		903434
 %define		_kdevelopver	3.9.91
+%define		_kdever		4.1.96
+%define		_qtver		4.4
 
-Summary:	kdevplatform
-Summary(pl.UTF-8):	kdevplatform
+Summary:	KDevelop Development Platform
+Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
 Version:	0.9.91
 Release:	1
@@ -12,16 +13,46 @@ License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
 # Source0-md5:	24de5a242aa1a19adb5f1b09344c13eb
-#Patch0:		%{name}-cmake.patch
+Patch0:		%{name}-cmake.patch
 URL:		http://www.kdevelop.org/
+BuildRequires:	rpm-build
+BuildRequires:	libstdc++-devel
+BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
+BuildRequires:	QtCore-devel >= %{_qtver}
+BuildRequires:	QtDBus-devel >= %{_qtver}
+BuildRequires:	QtDesigner-devel >= %{_qtver}
+BuildRequires:	QtTest-devel >= %{_qtver}
+BuildRequires:	QtSvg-devel >= %{_qtver}
+BuildRequires:	QtNetwork-devel >= %{_qtver}
+BuildRequires:	Qt3Support-devel >= %{_qtver}
+BuildRequires:	QtGui-devel >= %{_qtver}
 BuildRequires:	apr-devel
 BuildRequires:	apr-util-devel
 BuildRequires:	automoc4
-BuildRequires:	boost-devel
-BuildRequires:	commoncpp2-devel
+BuildRequires:	perl-base
+BuildRequires:	xorg-lib-libX11-devel
+BuildRequires:	xorg-lib-libXext-devel
+BuildRequires:	xorg-lib-libXau-devel
+BuildRequires:	xorg-lib-libXdmcp-devel
 BuildRequires:	phonon-devel
 BuildRequires:	subversion-devel
 BuildRequires:	zlib-devel
+BuildRequires:	glibc-devel
+BuildRequires:	libgcc
+Requires:	kde4-kdelibs-libs >= %{_kdever}
+Requires:	QtCore >= %{_qtver}
+Requires:	QtDBus >= %{_qtver}
+Requires:	QtDesigner >= %{_qtver}
+Requires:	QtTest >= %{_qtver}
+Requires:	QtSvg >= %{_qtver}
+Requires:	QtNetwork >= %{_qtver}
+Requires:	Qt3Support >= %{_qtver}
+Requires:	QtGui >= %{_qtver}
+Requires:	apr
+Requires:	apr-util
+Requires:	glibc
+Requires:	libgcc
+Requires:	subversion-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
 %description
@@ -72,8 +103,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-#%attr(755,root,root) %{_bindir}/kdevteamwork_server
-#%attr(755,root,root) %{_bindir}/lcov_geninfo
 
 %attr(755,root,root) %{_libdir}/libkdevplatforminterfaces.so.*.*.*
 %attr(755,root,root) %{_libdir}/libkdevplatforminterfaces.so.?
@@ -95,10 +124,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/libsublime.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformveritas.so.*.*.*
 %attr(755,root,root) %{_libdir}/libkdevplatformveritas.so.?
-#%attr(755,root,root) %{_libdir}/libkdevveritascoverage.so
-#%attr(755,root,root) %{_libdir}/libkdevteamwork_diff2.so
-#%attr(755,root,root) %{_libdir}/libkdevteamwork_dynamictext.so
-#%attr(755,root,root) %{_libdir}/libkdevteamwork_network.so
 
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_bgsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_ccsettings.so
@@ -109,17 +134,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_runsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdevsourceformattersettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_uisettings.so
-#%attr(755,root,root) %{_libdir}/kde4/kdevbzr.so
-#%attr(755,root,root) %{_libdir}/kde4/kdevclassbrowser.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcontextbrowser.so
-#%attr(755,root,root) %{_libdir}/kde4/kdevcoverage.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcvs.so
-#%attr(755,root,root) %{_libdir}/kde4/kdevduchainview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevexecute.so
 %attr(755,root,root) %{_libdir}/kde4/kdevfilemanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgenericmanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgit.so
-#%attr(755,root,root) %{_libdir}/kde4/kdevhg.so
 %attr(755,root,root) %{_libdir}/kde4/kdevkonsoleview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevkrossplugin.so
 %attr(755,root,root) %{_libdir}/kde4/kdevproblemreporter.so
@@ -129,19 +149,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevsourceformatter.so
 %attr(755,root,root) %{_libdir}/kde4/kdevstandardoutputview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevsubversion.so
-#%attr(755,root,root) %{_libdir}/kde4/kdevteamwork.so
 %attr(755,root,root) %{_libdir}/kde4/kdevvcscommon.so
 %attr(755,root,root) %{_libdir}/kde4/kdevappwizard.so
 %dir %{_datadir}/apps/kdevstandardoutputview
 %{_datadir}/apps/kdevstandardoutputview/kdevstandardoutputview.rc
-#%dir %{_datadir}/apps/kdevclassbrowser
-#%{_datadir}/apps/kdevclassbrowser/kdevclassbrowser.rc
-#%dir %{_datadir}/apps/kdevbzr
-#%{_datadir}/apps/kdevbzr/kdevbzr.rc
 %dir %{_datadir}/apps/kdevcvs
 %{_datadir}/apps/kdevcvs/kdevcvs.rc
-#%dir %{_datadir}/apps/kdevduchainview
-#%{_datadir}/apps/kdevduchainview/kdevduchainview.rc
 %dir %{_datadir}/apps/kdevfilemanager
 %{_datadir}/apps/kdevfilemanager/kdevfilemanager.rc
 %dir %{_datadir}/apps/kdevproblemreporter
@@ -152,14 +165,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevquickopen/kdevquickopen.rc
 %dir %{_datadir}/apps/kdevcontextbrowser
 %{_datadir}/apps/kdevcontextbrowser/kdevcontextbrowser.rc
-#%dir %{_datadir}/apps/kdevcoverage
-#%{_datadir}/apps/kdevcoverage/kdevcoverage.rc
 %dir %{_datadir}/apps/kdevgit
 %{_datadir}/apps/kdevgit/kdevgit.rc
-#%dir %{_datadir}/apps/kdevhg
-#%{_datadir}/apps/kdevhg/kdevhg.rc
-#%dir %{_datadir}/apps/kdevteamwork
-#%{_datadir}/apps/kdevteamwork/kdevteamwork.rc
 %dir %{_datadir}/apps/kdevsourceformatter
 %{_datadir}/apps/kdevsourceformatter/kdevsourceformatter.rc
 %{_datadir}/kde4/services/*.desktop
@@ -171,7 +178,6 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/kdevplatform/*
-#%{_libdir}/libkdevplatformeditor.so
 %{_libdir}/libkdevplatforminterfaces.so
 %{_libdir}/libkdevplatformlanguage.so
 %{_libdir}/libkdevplatformoutputview.so
