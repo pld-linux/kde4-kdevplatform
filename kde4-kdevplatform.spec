@@ -172,12 +172,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/*.desktop
 %{_datadir}/kde4/servicetypes/kdevelopplugin.desktop
 %{_iconsdir}/hicolor/*/actions/*.png
+%dir %{_datadir}/apps/kdevappwizard
 %{_datadir}/apps/kdevappwizard/kdevappwizard.rc
+%dir %{_datadir}/apps/kdevappwizard/template_previews
 %{_datadir}/apps/kdevappwizard/template_previews/default-kdevelop.png
 
 %files devel
 %defattr(644,root,root,755)
-%{_includedir}/kdevplatform/*
+%{_includedir}/kdevplatform
 %{_libdir}/libkdevplatforminterfaces.so
 %{_libdir}/libkdevplatformlanguage.so
 %{_libdir}/libkdevplatformoutputview.so
@@ -189,6 +191,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libkdevplatformveritas.so
 %{_libdir}/libsublime.so
 %{_datadir}/apps/cmake/modules/FindKDevPlatform.cmake
+%dir %{_libdir}/kdevplatform
 %{_libdir}/kdevplatform/KDevPlatformConfig.cmake
 %{_libdir}/kdevplatform/KDevPlatformConfigVersion.cmake
 %{_libdir}/kdevplatform/KDevPlatformTargets.cmake
