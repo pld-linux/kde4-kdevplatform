@@ -14,7 +14,7 @@ License:	GPL
 Group:		X11/Development/Tools
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
 Source0:	ftp://ftp.kde.org/pub/kde/snapshots/%{orgname}-%{svnrev}.tar.bz2
-# Source0-md5:	78893cc0dba7516b5875736fcc2a9bd2
+# Source0-md5:	0a91173e6f46bab59e0ecc196ed5bb88
 Patch0:		%{name}-codegen.patch
 #Patch0:		%{name}-cmake.patch
 URL:		http://www.kdevelop.org/
