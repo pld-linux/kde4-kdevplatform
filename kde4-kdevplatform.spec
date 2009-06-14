@@ -1,19 +1,22 @@
 %define		_state		unstable
 %define		orgname		kdevplatform
+%define		svnrev		979473
 %define		_kdevelopver	3.9.91
-%define		_kdever		4.1.96
+%define		_kdever		4.2.0
 %define		_qtver		4.4
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	0.9.91
-Release:	1
+Version:	0.9.93
+Release:	0.%{svnrev}.1
 License:	GPL
 Group:		X11/Development/Tools
-Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	24de5a242aa1a19adb5f1b09344c13eb
-Patch0:		%{name}-cmake.patch
+#Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
+Source0:	ftp://ftp.kde.org/pub/kde/snapshots/%{orgname}-%{svnrev}.tar.bz2
+# Source0-md5:	78893cc0dba7516b5875736fcc2a9bd2
+Patch0:		%{name}-codegen.patch
+#Patch0:		%{name}-cmake.patch
 URL:		http://www.kdevelop.org/
 BuildRequires:	rpm-build
 BuildRequires:	libstdc++-devel
@@ -29,6 +32,7 @@ BuildRequires:	QtGui-devel >= %{_qtver}
 BuildRequires:	apr-devel
 BuildRequires:	apr-util-devel
 BuildRequires:	automoc4
+BuildRequires:	boost-devel
 BuildRequires:	perl-base
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXext-devel
@@ -76,8 +80,8 @@ Pakiet ten zawiera pliki nagłówkowe i dokumentację potrzebną przy
 pisaniu własnych programów wykorzystujących kdevplatform.
 
 %prep
-%setup -q -n %{orgname}-%{version}
-#%patch0 -p1
+%setup -q -n %{orgname}-%{svnrev}
+%patch0 -p1
 
 %build
 install -d build
@@ -103,27 +107,36 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
+#%attr(755,root,root) %{_bindir}/kdevteamwork_server
+#%attr(755,root,root) %{_bindir}/lcov_geninfo
 
+%attr(755,root,root) %{_libdir}/libkdevplatformdebugger.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libkdevplatformdebugger.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatforminterfaces.so.*.*.*
-%attr(755,root,root) %{_libdir}/libkdevplatforminterfaces.so.?
+%attr(755,root,root) %ghost %{_libdir}/libkdevplatforminterfaces.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformlanguage.so.*.*.*
-%attr(755,root,root) %{_libdir}/libkdevplatformlanguage.so.?
+%attr(755,root,root) %ghost %{_libdir}/libkdevplatformlanguage.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformoutputview.so.*.*.*
-%attr(755,root,root) %{_libdir}/libkdevplatformoutputview.so.?
+%attr(755,root,root) %ghost %{_libdir}/libkdevplatformoutputview.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformproject.so.*.*.*
-%attr(755,root,root) %{_libdir}/libkdevplatformproject.so.?
+%attr(755,root,root) %ghost %{_libdir}/libkdevplatformproject.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformshell.so.*.*.*
-%attr(755,root,root) %{_libdir}/libkdevplatformshell.so.?
+%attr(755,root,root) %ghost %{_libdir}/libkdevplatformshell.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformtestshell.so.*.*.*
-%attr(755,root,root) %{_libdir}/libkdevplatformtestshell.so.?
+%attr(755,root,root) %ghost %{_libdir}/libkdevplatformtestshell.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformutil.so.*.*.*
-%attr(755,root,root) %{_libdir}/libkdevplatformutil.so.?
+%attr(755,root,root) %ghost %{_libdir}/libkdevplatformutil.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformvcs.so.*.*.*
-%attr(755,root,root) %{_libdir}/libkdevplatformvcs.so.?
+%attr(755,root,root) %ghost %{_libdir}/libkdevplatformvcs.so.?
 %attr(755,root,root) %{_libdir}/libsublime.so.*.*.*
-%attr(755,root,root) %{_libdir}/libsublime.so.?
+%attr(755,root,root) %ghost %{_libdir}/libsublime.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformveritas.so.*.*.*
-%attr(755,root,root) %{_libdir}/libkdevplatformveritas.so.?
+%attr(755,root,root) %ghost %{_libdir}/libkdevplatformveritas.so.?
+
+#%attr(755,root,root) %{_libdir}/libkdevveritascoverage.so
+#%attr(755,root,root) %{_libdir}/libkdevteamwork_diff2.so
+#%attr(755,root,root) %{_libdir}/libkdevteamwork_dynamictext.so
+#%attr(755,root,root) %{_libdir}/libkdevteamwork_network.so
 
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_bgsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_ccsettings.so
@@ -131,17 +144,20 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_genericprojectmanagersettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_pluginsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_projectsettings.so
-%attr(755,root,root) %{_libdir}/kde4/kcm_kdev_runsettings.so
+#%attr(755,root,root) %{_libdir}/kde4/kcm_kdev_runsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdevsourceformattersettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_uisettings.so
+%attr(755,root,root) %{_libdir}/kde4/kdevclassbrowser.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcontextbrowser.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcvs.so
+%attr(755,root,root) %{_libdir}/kde4/kdevdocumentswitcher.so
 %attr(755,root,root) %{_libdir}/kde4/kdevexecute.so
 %attr(755,root,root) %{_libdir}/kde4/kdevfilemanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgenericmanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgit.so
 %attr(755,root,root) %{_libdir}/kde4/kdevkonsoleview.so
-%attr(755,root,root) %{_libdir}/kde4/kdevkrossplugin.so
+#%attr(755,root,root) %{_libdir}/kde4/kdevkrossplugin.so
+%attr(755,root,root) %{_libdir}/kde4/kdevmercurial.so
 %attr(755,root,root) %{_libdir}/kde4/kdevproblemreporter.so
 %attr(755,root,root) %{_libdir}/kde4/kdevprojectmanagerview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevquickopen.so
@@ -149,12 +165,23 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevsourceformatter.so
 %attr(755,root,root) %{_libdir}/kde4/kdevstandardoutputview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevsubversion.so
-%attr(755,root,root) %{_libdir}/kde4/kdevvcscommon.so
+
+#%attr(755,root,root) %{_libdir}/kde4/kdevteamwork.so
+
+#%attr(755,root,root) %{_libdir}/kde4/kdevvcscommon.so
 %attr(755,root,root) %{_libdir}/kde4/kdevappwizard.so
 %dir %{_datadir}/apps/kdevstandardoutputview
 %{_datadir}/apps/kdevstandardoutputview/kdevstandardoutputview.rc
 %dir %{_datadir}/apps/kdevcvs
 %{_datadir}/apps/kdevcvs/kdevcvs.rc
+%dir %{_datadir}/apps/kdevclassbrowser
+%{_datadir}/apps/kdevclassbrowser/kdevclassbrowser.rc
+%dir %{_datadir}/apps/kdevdebugger
+%{_datadir}/apps/kdevdebugger/kdevdebuggershellui.rc
+%dir %{_datadir}/apps/kdevdocumentswitcher
+%{_datadir}/apps/kdevdocumentswitcher/kdevdocumentswitcher.rc
+%dir %{_datadir}/apps/kdevmercurial
+%{_datadir}/apps/kdevmercurial/kdevmercurial.rc
 %dir %{_datadir}/apps/kdevfilemanager
 %{_datadir}/apps/kdevfilemanager/kdevfilemanager.rc
 %dir %{_datadir}/apps/kdevproblemreporter
@@ -167,6 +194,14 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevcontextbrowser/kdevcontextbrowser.rc
 %dir %{_datadir}/apps/kdevgit
 %{_datadir}/apps/kdevgit/kdevgit.rc
+
+%{_datadir}/apps/kdevcodegen
+
+#%dir %{_datadir}/apps/kdevhg
+#%{_datadir}/apps/kdevhg/kdevhg.rc
+#%dir %{_datadir}/apps/kdevteamwork
+#%{_datadir}/apps/kdevteamwork/kdevteamwork.rc
+
 %dir %{_datadir}/apps/kdevsourceformatter
 %{_datadir}/apps/kdevsourceformatter/kdevsourceformatter.rc
 %{_datadir}/kde4/services/*.desktop
@@ -180,6 +215,7 @@ rm -rf $RPM_BUILD_ROOT
 %files devel
 %defattr(644,root,root,755)
 %{_includedir}/kdevplatform
+%{_libdir}/libkdevplatformdebugger.so
 %{_libdir}/libkdevplatforminterfaces.so
 %{_libdir}/libkdevplatformlanguage.so
 %{_libdir}/libkdevplatformoutputview.so
@@ -191,8 +227,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libkdevplatformveritas.so
 %{_libdir}/libsublime.so
 %{_datadir}/apps/cmake/modules/FindKDevPlatform.cmake
-%dir %{_libdir}/kdevplatform
-%{_libdir}/kdevplatform/KDevPlatformConfig.cmake
-%{_libdir}/kdevplatform/KDevPlatformConfigVersion.cmake
-%{_libdir}/kdevplatform/KDevPlatformTargets.cmake
-%{_libdir}/kdevplatform/KDevPlatformTargets-relwithdebinfo.cmake
+%dir %{_libdir}/cmake/kdevplatform
+%{_libdir}/cmake/kdevplatform/KDevPlatformConfig.cmake
+%{_libdir}/cmake/kdevplatform/KDevPlatformConfigVersion.cmake
+%{_libdir}/cmake/kdevplatform/KDevPlatformMacros.cmake
+%{_libdir}/cmake/kdevplatform/KDevPlatformTargets.cmake
+%{_libdir}/cmake/kdevplatform/KDevPlatformTargets-relwithdebinfo.cmake
