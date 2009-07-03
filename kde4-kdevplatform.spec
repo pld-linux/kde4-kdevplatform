@@ -1,6 +1,6 @@
 %define		_state		unstable
 %define		orgname		kdevplatform
-%define		svnrev		979473
+%define		svnrev		989843
 %define		_kdevelopver	3.9.91
 %define		_kdever		4.2.0
 %define		_qtver		4.4
@@ -8,14 +8,13 @@
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	0.9.93
+Version:	0.9.94
 Release:	0.%{svnrev}.1
 License:	GPL
 Group:		X11/Development/Tools
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
 Source0:	ftp://ftp.kde.org/pub/kde/snapshots/%{orgname}-%{svnrev}.tar.bz2
-# Source0-md5:	0a91173e6f46bab59e0ecc196ed5bb88
-Patch0:		%{name}-codegen.patch
+# Source0-md5:	8c677eb8721c14e061a7266e20e3a91d
 #Patch0:		%{name}-cmake.patch
 URL:		http://www.kdevelop.org/
 BuildRequires:	rpm-build
@@ -81,7 +80,7 @@ pisaniu własnych programów wykorzystujących kdevplatform.
 
 %prep
 %setup -q -n %{orgname}-%{svnrev}
-%patch0 -p1
+#%patch0 -p1
 
 %build
 install -d build
@@ -122,8 +121,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libkdevplatformproject.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformshell.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkdevplatformshell.so.?
-%attr(755,root,root) %{_libdir}/libkdevplatformtestshell.so.*.*.*
-%attr(755,root,root) %ghost %{_libdir}/libkdevplatformtestshell.so.?
+%attr(755,root,root) %{_libdir}/libkdevplatformtests.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libkdevplatformtests.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformutil.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkdevplatformutil.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformvcs.so.*.*.*
@@ -221,7 +220,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libkdevplatformoutputview.so
 %{_libdir}/libkdevplatformproject.so
 %{_libdir}/libkdevplatformshell.so
-%{_libdir}/libkdevplatformtestshell.so
+%{_libdir}/libkdevplatformtests.so
 %{_libdir}/libkdevplatformutil.so
 %{_libdir}/libkdevplatformvcs.so
 %{_libdir}/libkdevplatformveritas.so
