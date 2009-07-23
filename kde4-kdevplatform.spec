@@ -1,9 +1,9 @@
 %define		_state		unstable
 %define		orgname		kdevplatform
-%define		svnrev		989843
+%define		svnrev		1000719
 %define		_kdevelopver	3.9.91
-%define		_kdever		4.2.0
-%define		_qtver		4.4
+%define		_kdever		4.2.98
+%define		_qtver		4.5.2
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
@@ -14,7 +14,7 @@ License:	GPL
 Group:		X11/Development/Tools
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
 Source0:	ftp://ftp.kde.org/pub/kde/snapshots/%{orgname}-%{svnrev}.tar.bz2
-# Source0-md5:	8c677eb8721c14e061a7266e20e3a91d
+# Source0-md5:	75c6d723326365a512e328d3bf6ee9aa
 #Patch0:		%{name}-cmake.patch
 URL:		http://www.kdevelop.org/
 BuildRequires:	rpm-build
