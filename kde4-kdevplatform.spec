@@ -53,6 +53,7 @@ Requires:	QtGui >= %{_qtver}
 Requires:	apr
 Requires:	apr-util
 Requires:	glibc
+Requires:	kde4-kdelibs = %{_kdever}
 Requires:	libgcc
 Requires:	subversion-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
