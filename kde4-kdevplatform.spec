@@ -42,7 +42,6 @@ BuildRequires:	subversion-devel
 BuildRequires:	zlib-devel
 BuildRequires:	glibc-devel
 BuildRequires:	libgcc
-Requires:	kde4-kdelibs-libs >= %{_kdever}
 Requires:	QtCore >= %{_qtver}
 Requires:	QtDBus >= %{_qtver}
 Requires:	QtDesigner >= %{_qtver}
