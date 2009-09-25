@@ -1,6 +1,6 @@
 %define		_state		unstable
 %define		orgname		kdevplatform
-%define		svnrev		1000719
+%define		svnrev		1026949
 %define		_kdevelopver	3.9.91
 %define		_kdever		4.2.98
 %define		_qtver		4.5.2
@@ -8,18 +8,20 @@
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	0.9.94
+Version:	0.9.95
 Release:	0.%{svnrev}.1
 License:	GPL
 Group:		X11/Development/Tools
+# get it via: svn co svn://anonsvn.kde.org/home/kde/trunk/KDE/kdevplatform
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
-Source0:	ftp://ftp.kde.org/pub/kde/snapshots/%{orgname}-%{svnrev}.tar.bz2
-# Source0-md5:	75c6d723326365a512e328d3bf6ee9aa
+Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/snapshots/%{orgname}-%{svnrev}.tar.bz2
+# Source0-md5:	c92dfd83ff17019ae23b13df99d270d0
 #Patch0:		%{name}-cmake.patch
 URL:		http://www.kdevelop.org/
 BuildRequires:	rpm-build
 BuildRequires:	libstdc++-devel
 BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
+BuildRequires:	kde4-kdesdk-kompare
 BuildRequires:	QtCore-devel >= %{_qtver}
 BuildRequires:	QtDBus-devel >= %{_qtver}
 BuildRequires:	QtDesigner-devel >= %{_qtver}
@@ -53,7 +55,7 @@ Requires:	QtGui >= %{_qtver}
 Requires:	apr
 Requires:	apr-util
 Requires:	glibc
-Requires:	kde4-kdelibs = %{_kdever}
+Requires:	kde4-kdelibs >= %{_kdever}
 Requires:	libgcc
 Requires:	subversion-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -157,6 +159,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevkonsoleview.so
 #%attr(755,root,root) %{_libdir}/kde4/kdevkrossplugin.so
 %attr(755,root,root) %{_libdir}/kde4/kdevmercurial.so
+%attr(755,root,root) %{_libdir}/kde4/kdevopenwith.so
+%attr(755,root,root) %{_libdir}/kde4/kdevpatchreview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevproblemreporter.so
 %attr(755,root,root) %{_libdir}/kde4/kdevprojectmanagerview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevquickopen.so
@@ -193,6 +197,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevcontextbrowser/kdevcontextbrowser.rc
 %dir %{_datadir}/apps/kdevgit
 %{_datadir}/apps/kdevgit/kdevgit.rc
+%dir %{_datadir}/apps/kdevpatchreview
+%{_datadir}/apps/kdevpatchreview/kdevpatchreview.rc
 
 %{_datadir}/apps/kdevcodegen
 
