@@ -16,42 +16,44 @@ Group:		X11/Development/Tools
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/snapshots/%{orgname}-%{svnrev}.tar.bz2
 # Source0-md5:	a9e3438a9f02388b76fcf53eab878d79
-#Patch0:		%{name}-cmake.patch
+#Patch0: %{name}-cmake.patch
 URL:		http://www.kdevelop.org/
-BuildRequires:	rpm-build
-BuildRequires:	libstdc++-devel
-BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
-BuildRequires:	kde4-kdesdk-kompare
+BuildRequires:	Qt3Support-devel >= %{_qtver}
 BuildRequires:	QtCore-devel >= %{_qtver}
 BuildRequires:	QtDBus-devel >= %{_qtver}
 BuildRequires:	QtDesigner-devel >= %{_qtver}
-BuildRequires:	QtTest-devel >= %{_qtver}
-BuildRequires:	QtSvg-devel >= %{_qtver}
-BuildRequires:	QtNetwork-devel >= %{_qtver}
-BuildRequires:	Qt3Support-devel >= %{_qtver}
 BuildRequires:	QtGui-devel >= %{_qtver}
+BuildRequires:	QtNetwork-devel >= %{_qtver}
+BuildRequires:	QtSvg-devel >= %{_qtver}
+BuildRequires:	QtTest-devel >= %{_qtver}
 BuildRequires:	apr-devel
 BuildRequires:	apr-util-devel
 BuildRequires:	automoc4
 BuildRequires:	boost-devel
+BuildRequires:	cmake
+BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
+BuildRequires:	kde4-kdesdk-kompare
+BuildRequires:	libgcc
+BuildRequires:	libstdc++-devel
 BuildRequires:	perl-base
+BuildRequires:	phonon-devel
+BuildRequires:	qt4-build
+BuildRequires:	qt4-qmake
+BuildRequires:	rpm-build
+BuildRequires:	subversion-devel
 BuildRequires:	xorg-lib-libX11-devel
-BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	xorg-lib-libXau-devel
 BuildRequires:	xorg-lib-libXdmcp-devel
-BuildRequires:	phonon-devel
-BuildRequires:	subversion-devel
+BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	zlib-devel
-BuildRequires:	glibc-devel
-BuildRequires:	libgcc
+Requires:	Qt3Support >= %{_qtver}
 Requires:	QtCore >= %{_qtver}
 Requires:	QtDBus >= %{_qtver}
 Requires:	QtDesigner >= %{_qtver}
-Requires:	QtTest >= %{_qtver}
-Requires:	QtSvg >= %{_qtver}
-Requires:	QtNetwork >= %{_qtver}
-Requires:	Qt3Support >= %{_qtver}
 Requires:	QtGui >= %{_qtver}
+Requires:	QtNetwork >= %{_qtver}
+Requires:	QtSvg >= %{_qtver}
+Requires:	QtTest >= %{_qtver}
 Requires:	apr
 Requires:	apr-util
 Requires:	glibc
