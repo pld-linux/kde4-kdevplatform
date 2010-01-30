@@ -1,21 +1,22 @@
 %define		_state		unstable
 %define		orgname		kdevplatform
-%define		svnrev		1038262
-%define		_kdevelopver	3.9.91
-%define		_kdever		4.2.98
-%define		_qtver		4.5.2
+%define		svnrev		1082390
+%define		_kdevelopver	3.9.97
+%define		_kdever		4.3.5
+%define		_qtver		4.6.1
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	0.9.96
-Release:	0.%{svnrev}.1
+Version:	0.9.97
+#Release:	0.%{svnrev}.1
+Release:        0.1
 License:	GPL
 Group:		X11/Development/Tools
 # get it via: svn co svn://anonsvn.kde.org/home/kde/trunk/KDE/kdevplatform
-#Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
-Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/snapshots/%{orgname}-%{svnrev}.tar.bz2
-# Source0-md5:	a9e3438a9f02388b76fcf53eab878d79
+Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
+# Source0-md5:	bfe385bc471d4d9abf4e989ca203db86
+#Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/snapshots/%{orgname}-%{svnrev}.tar.bz2
 #Patch0: %{name}-cmake.patch
 URL:		http://www.kdevelop.org/
 BuildRequires:	Qt3Support-devel >= %{_qtver}
@@ -83,7 +84,7 @@ Pakiet ten zawiera pliki nagłówkowe i dokumentację potrzebną przy
 pisaniu własnych programów wykorzystujących kdevplatform.
 
 %prep
-%setup -q -n %{orgname}-%{svnrev}
+%setup -q -n %{orgname}-%{version}
 #%patch0 -p1
 
 %build
@@ -163,7 +164,7 @@ rm -rf $RPM_BUILD_ROOT
 #%attr(755,root,root) %{_libdir}/kde4/kdevgit.so
 %attr(755,root,root) %{_libdir}/kde4/kdevkonsoleview.so
 #%attr(755,root,root) %{_libdir}/kde4/kdevkrossplugin.so
-%attr(755,root,root) %{_libdir}/kde4/kdevmercurial.so
+#%attr(755,root,root) %{_libdir}/kde4/kdevmercurial.so
 %attr(755,root,root) %{_libdir}/kde4/kdevopenwith.so
 %attr(755,root,root) %{_libdir}/kde4/kdevpatchreview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevproblemreporter.so
@@ -192,8 +193,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevdocumentview/kdevdocumentview.rc
 %dir %{_datadir}/apps/kdevgrepview
 %{_datadir}/apps/kdevgrepview/kdevgrepview.rc
-%dir %{_datadir}/apps/kdevmercurial
-%{_datadir}/apps/kdevmercurial/kdevmercurial.rc
+#%dir %{_datadir}/apps/kdevmercurial
+#%{_datadir}/apps/kdevmercurial/kdevmercurial.rc
 %dir %{_datadir}/apps/kdevfilemanager
 %{_datadir}/apps/kdevfilemanager/kdevfilemanager.rc
 %dir %{_datadir}/apps/kdevproblemreporter
@@ -208,7 +209,8 @@ rm -rf $RPM_BUILD_ROOT
 #%{_datadir}/apps/kdevgit/kdevgit.rc
 %dir %{_datadir}/apps/kdevpatchreview
 %{_datadir}/apps/kdevpatchreview/kdevpatchreview.rc
-
+%dir %{_datadir}/apps/kdevsession
+%{_datadir}/apps/kdevsession/kdevsessionui.rc
 %{_datadir}/apps/kdevcodegen
 
 #%dir %{_datadir}/apps/kdevhg
@@ -246,4 +248,4 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/cmake/kdevplatform/KDevPlatformConfigVersion.cmake
 %{_libdir}/cmake/kdevplatform/KDevPlatformMacros.cmake
 %{_libdir}/cmake/kdevplatform/KDevPlatformTargets.cmake
-%{_libdir}/cmake/kdevplatform/KDevPlatformTargets-relwithdebinfo.cmake
+%{_libdir}/cmake/kdevplatform/KDevPlatformTargets-release.cmake
