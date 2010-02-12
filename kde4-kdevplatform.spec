@@ -1,21 +1,21 @@
 %define		_state		unstable
 %define		orgname		kdevplatform
 %define		svnrev		1082390
-%define		_kdevelopver	3.9.97
+%define		_kdevelopver	3.9.98
 %define		_kdever		4.3.5
 %define		_qtver		4.6.1
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	0.9.97
+Version:	0.9.98
 #Release:	0.%{svnrev}.1
 Release:        0.1
 License:	GPL
 Group:		X11/Development/Tools
 # get it via: svn co svn://anonsvn.kde.org/home/kde/trunk/KDE/kdevplatform
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	bfe385bc471d4d9abf4e989ca203db86
+# Source0-md5:	dcdc427d8be4d8fa721f7354ac4406ed
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/snapshots/%{orgname}-%{svnrev}.tar.bz2
 #Patch0: %{name}-cmake.patch
 URL:		http://www.kdevelop.org/
@@ -171,7 +171,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevprojectmanagerview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevquickopen.so
 %attr(755,root,root) %{_libdir}/kde4/kdevsnippet.so
-%attr(755,root,root) %{_libdir}/kde4/kdevsourceformatter.so
+#%attr(755,root,root) %{_libdir}/kde4/kdevsourceformatter.so
 %attr(755,root,root) %{_libdir}/kde4/kdevstandardoutputview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevsubversion.so
 
@@ -207,6 +207,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevcontextbrowser/kdevcontextbrowser.rc
 #%dir %{_datadir}/apps/kdevgit
 #%{_datadir}/apps/kdevgit/kdevgit.rc
+%dir %{_datadir}/apps/kdevsnippet
+%{_datadir}/apps/kdevsnippet/kdevsnippet.rc
 %dir %{_datadir}/apps/kdevpatchreview
 %{_datadir}/apps/kdevpatchreview/kdevpatchreview.rc
 %dir %{_datadir}/apps/kdevsession
@@ -242,7 +244,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libkdevplatformvcs.so
 #%{_libdir}/libkdevplatformveritas.so
 %{_libdir}/libsublime.so
-%{_datadir}/apps/cmake/modules/FindKDevPlatform.cmake
+#%{_datadir}/apps/cmake/modules/FindKDevPlatform.cmake
 %dir %{_libdir}/cmake/kdevplatform
 %{_libdir}/cmake/kdevplatform/KDevPlatformConfig.cmake
 %{_libdir}/cmake/kdevplatform/KDevPlatformConfigVersion.cmake
