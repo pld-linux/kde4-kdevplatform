@@ -1,21 +1,21 @@
 %define		_state		unstable
 %define		orgname		kdevplatform
 %define		svnrev		1082390
-%define		_kdevelopver	3.9.98
+%define		_kdevelopver	3.9.99
 %define		_kdever		4.3.5
 %define		_qtver		4.6.1
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	0.9.98
+Version:	0.9.99
 #Release:	0.%{svnrev}.1
 Release:        0.1
 License:	GPL
 Group:		X11/Development/Tools
 # get it via: svn co svn://anonsvn.kde.org/home/kde/trunk/KDE/kdevplatform
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	dcdc427d8be4d8fa721f7354ac4406ed
+# Source0-md5:	180ee3573bd3d5ba805acc17d44fcbab
 #Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/snapshots/%{orgname}-%{svnrev}.tar.bz2
 #Patch0: %{name}-cmake.patch
 URL:		http://www.kdevelop.org/
