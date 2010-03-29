@@ -10,7 +10,7 @@ Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
 Version:	0.9.99
 #Release:	0.%{svnrev}.1
-Release:        0.1
+Release:        0.2
 License:	GPL
 Group:		X11/Development/Tools
 # get it via: svn co svn://anonsvn.kde.org/home/kde/trunk/KDE/kdevplatform
@@ -100,6 +100,8 @@ cd build
 %install
 rm -rf $RPM_BUILD_ROOT
 
+install -d $RPM_BUILD_ROOT%{_datadir}/apps/kdevplatform/profiles
+
 %{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT \
 	kde_htmldir=%{_kdedocdir}
@@ -179,6 +181,8 @@ rm -rf $RPM_BUILD_ROOT
 
 #%attr(755,root,root) %{_libdir}/kde4/kdevvcscommon.so
 %attr(755,root,root) %{_libdir}/kde4/kdevappwizard.so
+%dir %{_datadir}/apps/kdevplatform
+%dir %{_datadir}/apps/kdevplatform/profiles
 %dir %{_datadir}/apps/kdevstandardoutputview
 %{_datadir}/apps/kdevstandardoutputview/kdevstandardoutputview.rc
 %dir %{_datadir}/apps/kdevcvs
