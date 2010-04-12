@@ -1,23 +1,18 @@
 %define		_state		unstable
 %define		orgname		kdevplatform
-%define		svnrev		1082390
-%define		_kdevelopver	3.9.99
-%define		_kdever		4.3.5
-%define		_qtver		4.6.1
+%define		_kdevelopver	3.10.0
+%define		_kdever		4.4.2
+%define		_qtver		4.6.2
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	0.9.99
-#Release:	0.%{svnrev}.1
-Release:        0.2
+Version:	0.10.0
+Release:        0.1
 License:	GPL
 Group:		X11/Development/Tools
-# get it via: svn co svn://anonsvn.kde.org/home/kde/trunk/KDE/kdevplatform
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	180ee3573bd3d5ba805acc17d44fcbab
-#Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/snapshots/%{orgname}-%{svnrev}.tar.bz2
-#Patch0: %{name}-cmake.patch
+# Source0-md5:	e71de75821cdb5141e9e4a88c5bd6bf4
 URL:		http://www.kdevelop.org/
 BuildRequires:	Qt3Support-devel >= %{_qtver}
 BuildRequires:	QtCore-devel >= %{_qtver}
@@ -114,9 +109,6 @@ rm -rf $RPM_BUILD_ROOT
 
 %files
 %defattr(644,root,root,755)
-#%attr(755,root,root) %{_bindir}/kdevteamwork_server
-#%attr(755,root,root) %{_bindir}/lcov_geninfo
-
 %attr(755,root,root) %{_libdir}/libkdevplatformdebugger.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkdevplatformdebugger.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatforminterfaces.so.*.*.*
