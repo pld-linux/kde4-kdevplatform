@@ -27,6 +27,7 @@ BuildRequires:	apr-util-devel
 BuildRequires:	automoc4
 BuildRequires:	boost-devel
 BuildRequires:	cmake
+BuildRequires:	gettext-devel
 BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
 BuildRequires:	kde4-kdesdk-kompare
 BuildRequires:	libgcc
