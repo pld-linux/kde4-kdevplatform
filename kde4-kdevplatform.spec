@@ -1,18 +1,18 @@
 %define		_state		unstable
 %define		orgname		kdevplatform
-%define		_kdevelopver	3.10.0
+%define		_kdevelopver	3.10.2
 %define		_kdever		4.4.2
 %define		_qtver		4.6.2
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	0.10.0
+Version:	0.10.2
 Release:        0.1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	e71de75821cdb5141e9e4a88c5bd6bf4
+# Source0-md5:	b6ded06b68b035ff1110f7e33a25448a
 URL:		http://www.kdevelop.org/
 BuildRequires:	Qt3Support-devel >= %{_qtver}
 BuildRequires:	QtCore-devel >= %{_qtver}
@@ -101,13 +101,15 @@ install -d $RPM_BUILD_ROOT%{_datadir}/apps/kdevplatform/profiles
 	DESTDIR=$RPM_BUILD_ROOT \
 	kde_htmldir=%{_kdedocdir}
 
+%find_lang %{orgname} --all-name
+
 %clean
 rm -rf $RPM_BUILD_ROOT
 
 %post	-p /sbin/ldconfig
 %postun	-p /sbin/ldconfig
 
-%files
+%files -f %{orgname}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libkdevplatformdebugger.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkdevplatformdebugger.so.?
