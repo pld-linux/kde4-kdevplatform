@@ -1,18 +1,18 @@
-%define		_state		unstable
+%define		_state		stable
 %define		orgname		kdevplatform
-%define		_kdevelopver	3.10.2
+%define		_kdevelopver	4.0.0
 %define		_kdever		4.4.2
 %define		_qtver		4.6.2
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	0.10.2
-Release:        0.1
+Version:	1.0.0
+Release:	0.1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	b6ded06b68b035ff1110f7e33a25448a
+# Source0-md5:	0aa7a6d207d5675ed31ceeacfdda7a69
 URL:		http://www.kdevelop.org/
 BuildRequires:	Qt3Support-devel >= %{_qtver}
 BuildRequires:	QtCore-devel >= %{_qtver}
@@ -81,7 +81,6 @@ pisaniu własnych programów wykorzystujących kdevplatform.
 
 %prep
 %setup -q -n %{orgname}-%{version}
-#%patch0 -p1
 
 %build
 install -d build
@@ -132,21 +131,12 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libkdevplatformvcs.so.?
 %attr(755,root,root) %{_libdir}/libsublime.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libsublime.so.?
-#%attr(755,root,root) %{_libdir}/libkdevplatformveritas.so.*.*.*
-#%attr(755,root,root) %ghost %{_libdir}/libkdevplatformveritas.so.?
-
-#%attr(755,root,root) %{_libdir}/libkdevveritascoverage.so
-#%attr(755,root,root) %{_libdir}/libkdevteamwork_diff2.so
-#%attr(755,root,root) %{_libdir}/libkdevteamwork_dynamictext.so
-#%attr(755,root,root) %{_libdir}/libkdevteamwork_network.so
-
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_bgsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_ccsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_envsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_genericprojectmanagersettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_pluginsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_projectsettings.so
-#%attr(755,root,root) %{_libdir}/kde4/kcm_kdev_runsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdevsourceformattersettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_uisettings.so
 %attr(755,root,root) %{_libdir}/kde4/kdevclassbrowser.so
@@ -158,23 +148,15 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevfilemanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgenericmanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgrepview.so
-#%attr(755,root,root) %{_libdir}/kde4/kdevgit.so
 %attr(755,root,root) %{_libdir}/kde4/kdevkonsoleview.so
-#%attr(755,root,root) %{_libdir}/kde4/kdevkrossplugin.so
-#%attr(755,root,root) %{_libdir}/kde4/kdevmercurial.so
 %attr(755,root,root) %{_libdir}/kde4/kdevopenwith.so
 %attr(755,root,root) %{_libdir}/kde4/kdevpatchreview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevproblemreporter.so
 %attr(755,root,root) %{_libdir}/kde4/kdevprojectmanagerview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevquickopen.so
 %attr(755,root,root) %{_libdir}/kde4/kdevsnippet.so
-#%attr(755,root,root) %{_libdir}/kde4/kdevsourceformatter.so
 %attr(755,root,root) %{_libdir}/kde4/kdevstandardoutputview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevsubversion.so
-
-#%attr(755,root,root) %{_libdir}/kde4/kdevteamwork.so
-
-#%attr(755,root,root) %{_libdir}/kde4/kdevvcscommon.so
 %attr(755,root,root) %{_libdir}/kde4/kdevappwizard.so
 %dir %{_datadir}/apps/kdevplatform
 %dir %{_datadir}/apps/kdevplatform/profiles
@@ -192,8 +174,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevdocumentview/kdevdocumentview.rc
 %dir %{_datadir}/apps/kdevgrepview
 %{_datadir}/apps/kdevgrepview/kdevgrepview.rc
-#%dir %{_datadir}/apps/kdevmercurial
-#%{_datadir}/apps/kdevmercurial/kdevmercurial.rc
 %dir %{_datadir}/apps/kdevfilemanager
 %{_datadir}/apps/kdevfilemanager/kdevfilemanager.rc
 %dir %{_datadir}/apps/kdevproblemreporter
@@ -204,8 +184,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevquickopen/kdevquickopen.rc
 %dir %{_datadir}/apps/kdevcontextbrowser
 %{_datadir}/apps/kdevcontextbrowser/kdevcontextbrowser.rc
-#%dir %{_datadir}/apps/kdevgit
-#%{_datadir}/apps/kdevgit/kdevgit.rc
 %dir %{_datadir}/apps/kdevsnippet
 %{_datadir}/apps/kdevsnippet/kdevsnippet.rc
 %dir %{_datadir}/apps/kdevpatchreview
@@ -213,12 +191,6 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/apps/kdevsession
 %{_datadir}/apps/kdevsession/kdevsessionui.rc
 %{_datadir}/apps/kdevcodegen
-
-#%dir %{_datadir}/apps/kdevhg
-#%{_datadir}/apps/kdevhg/kdevhg.rc
-#%dir %{_datadir}/apps/kdevteamwork
-#%{_datadir}/apps/kdevteamwork/kdevteamwork.rc
-
 %dir %{_datadir}/apps/kdevsourceformatter
 %{_datadir}/apps/kdevsourceformatter/kdevsourceformatter.rc
 %{_datadir}/kde4/services/*.desktop
@@ -241,9 +213,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libkdevplatformtests.so
 %{_libdir}/libkdevplatformutil.so
 %{_libdir}/libkdevplatformvcs.so
-#%{_libdir}/libkdevplatformveritas.so
 %{_libdir}/libsublime.so
-#%{_datadir}/apps/cmake/modules/FindKDevPlatform.cmake
 %dir %{_libdir}/cmake/kdevplatform
 %{_libdir}/cmake/kdevplatform/KDevPlatformConfig.cmake
 %{_libdir}/cmake/kdevplatform/KDevPlatformConfigVersion.cmake
