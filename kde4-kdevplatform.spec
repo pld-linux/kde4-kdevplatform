@@ -1,14 +1,14 @@
 %define		_state		stable
 %define		orgname		kdevplatform
 %define		_kdevelopver	4.0.0
-%define		_kdever		4.4.2
+%define		_kdever		4.4.3
 %define		_qtver		4.6.2
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
 Version:	1.0.0
-Release:	0.1
+Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
