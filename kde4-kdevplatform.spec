@@ -70,6 +70,7 @@ Summary:	kdevplatform - header files and development documentation
 Summary(pl.UTF-8):	kdevplatform - pliki nagłówkowe i dokumentacja
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
+Requires:	QtDesigner-devel >= %{_qtver}
 
 %description devel
 This package contains header files and development documentation for
