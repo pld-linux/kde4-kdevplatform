@@ -1,18 +1,18 @@
 %define		_state		stable
 %define		orgname		kdevplatform
-%define		_kdevelopver	4.0.0
-%define		_kdever		4.4.3
-%define		_qtver		4.6.2
+%define		_kdevelopver	4.0.1
+%define		_kdever		4.4.5
+%define		_qtver		4.6.3
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	1.0.0
+Version:	1.0.1
 Release:	1
 License:	GPL
 Group:		X11/Development/Tools
-Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	0aa7a6d207d5675ed31ceeacfdda7a69
+Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/%{orgname}-%{version}.tar.bz2
+# Source0-md5:	c618fbc42e7885072dcfb2e5322fd926
 URL:		http://www.kdevelop.org/
 BuildRequires:	Qt3Support-devel >= %{_qtver}
 BuildRequires:	QtCore-devel >= %{_qtver}
@@ -26,16 +26,16 @@ BuildRequires:	apr-devel
 BuildRequires:	apr-util-devel
 BuildRequires:	automoc4
 BuildRequires:	boost-devel
-BuildRequires:	cmake
+BuildRequires:	cmake >= 2.8.0
 BuildRequires:	gettext-devel
 BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
-BuildRequires:	kde4-kdesdk-kompare
+BuildRequires:	kde4-kdesdk-kompare >= %{_kdever}
 BuildRequires:	libgcc
 BuildRequires:	libstdc++-devel
 BuildRequires:	perl-base
 BuildRequires:	phonon-devel
-BuildRequires:	qt4-build
-BuildRequires:	qt4-qmake
+BuildRequires:	qt4-build >= %{_qtver}
+BuildRequires:	qt4-qmake >= %{_qtver}
 BuildRequires:	rpm-build
 BuildRequires:	subversion-devel
 BuildRequires:	xorg-lib-libX11-devel
