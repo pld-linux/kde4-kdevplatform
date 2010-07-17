@@ -30,8 +30,6 @@ BuildRequires:	xorg-lib-libXau-devel
 BuildRequires:	xorg-lib-libXdmcp-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	zlib-devel
-Requires:	QtNetwork >= %{qtver}
-Requires:	kde4-kdelibs >= %{kdever}
 Requires:	subversion-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
@@ -46,8 +44,6 @@ Summary:	kdevplatform - header files and development documentation
 Summary(pl.UTF-8):	kdevplatform - pliki nagłówkowe i dokumentacja
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	QtDesigner-devel >= %{qtver}
-Requires:	QtTest-devel >= %{qtver}
 Requires:	kde4-kdelibs-devel >= %{kdever}
 
 %description devel
