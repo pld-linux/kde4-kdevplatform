@@ -14,48 +14,24 @@ Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/%{orgname}-%{version}.tar.bz2
 # Source0-md5:	c618fbc42e7885072dcfb2e5322fd926
 URL:		http://www.kdevelop.org/
-BuildRequires:	Qt3Support-devel >= %{qtver}
-BuildRequires:	QtCore-devel >= %{qtver}
-BuildRequires:	QtDBus-devel >= %{qtver}
-BuildRequires:	QtDesigner-devel >= %{qtver}
-BuildRequires:	QtGui-devel >= %{qtver}
 BuildRequires:	QtNetwork-devel >= %{qtver}
-BuildRequires:	QtSvg-devel >= %{qtver}
-BuildRequires:	QtTest-devel >= %{qtver}
-BuildRequires:	apr-devel
-BuildRequires:	apr-util-devel
 BuildRequires:	automoc4
 BuildRequires:	boost-devel
 BuildRequires:	cmake >= 2.8.0
 BuildRequires:	gettext-devel
 BuildRequires:	kde4-kdelibs-devel >= %{kdever}
 BuildRequires:	kde4-kdesdk-kompare >= %{kdever}
-BuildRequires:	libgcc
 BuildRequires:	libstdc++-devel
-BuildRequires:	perl-base
-BuildRequires:	phonon-devel
 BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	qt4-qmake >= %{qtver}
-BuildRequires:	rpm-build
 BuildRequires:	subversion-devel
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXau-devel
 BuildRequires:	xorg-lib-libXdmcp-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	zlib-devel
-Requires:	Qt3Support >= %{qtver}
-Requires:	QtCore >= %{qtver}
-Requires:	QtDBus >= %{qtver}
-Requires:	QtDesigner >= %{qtver}
-Requires:	QtGui >= %{qtver}
 Requires:	QtNetwork >= %{qtver}
-Requires:	QtSvg >= %{qtver}
-Requires:	QtTest >= %{qtver}
-Requires:	apr
-Requires:	apr-util
-Requires:	glibc
 Requires:	kde4-kdelibs >= %{kdever}
-Requires:	libgcc
 Requires:	subversion-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
 
