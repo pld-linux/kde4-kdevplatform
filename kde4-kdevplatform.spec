@@ -1,8 +1,8 @@
 %define		_state		stable
 %define		orgname		kdevplatform
 %define		_kdevelopver	4.0.1
-%define		_kdever		4.4.5
-%define		_qtver		4.6.3
+%define		kdever		4.4.5
+%define		qtver		4.6.3
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
@@ -14,28 +14,28 @@ Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/%{orgname}-%{version}.tar.bz2
 # Source0-md5:	c618fbc42e7885072dcfb2e5322fd926
 URL:		http://www.kdevelop.org/
-BuildRequires:	Qt3Support-devel >= %{_qtver}
-BuildRequires:	QtCore-devel >= %{_qtver}
-BuildRequires:	QtDBus-devel >= %{_qtver}
-BuildRequires:	QtDesigner-devel >= %{_qtver}
-BuildRequires:	QtGui-devel >= %{_qtver}
-BuildRequires:	QtNetwork-devel >= %{_qtver}
-BuildRequires:	QtSvg-devel >= %{_qtver}
-BuildRequires:	QtTest-devel >= %{_qtver}
+BuildRequires:	Qt3Support-devel >= %{qtver}
+BuildRequires:	QtCore-devel >= %{qtver}
+BuildRequires:	QtDBus-devel >= %{qtver}
+BuildRequires:	QtDesigner-devel >= %{qtver}
+BuildRequires:	QtGui-devel >= %{qtver}
+BuildRequires:	QtNetwork-devel >= %{qtver}
+BuildRequires:	QtSvg-devel >= %{qtver}
+BuildRequires:	QtTest-devel >= %{qtver}
 BuildRequires:	apr-devel
 BuildRequires:	apr-util-devel
 BuildRequires:	automoc4
 BuildRequires:	boost-devel
 BuildRequires:	cmake >= 2.8.0
 BuildRequires:	gettext-devel
-BuildRequires:	kde4-kdelibs-devel >= %{_kdever}
-BuildRequires:	kde4-kdesdk-kompare >= %{_kdever}
+BuildRequires:	kde4-kdelibs-devel >= %{kdever}
+BuildRequires:	kde4-kdesdk-kompare >= %{kdever}
 BuildRequires:	libgcc
 BuildRequires:	libstdc++-devel
 BuildRequires:	perl-base
 BuildRequires:	phonon-devel
-BuildRequires:	qt4-build >= %{_qtver}
-BuildRequires:	qt4-qmake >= %{_qtver}
+BuildRequires:	qt4-build >= %{qtver}
+BuildRequires:	qt4-qmake >= %{qtver}
 BuildRequires:	rpm-build
 BuildRequires:	subversion-devel
 BuildRequires:	xorg-lib-libX11-devel
@@ -43,18 +43,18 @@ BuildRequires:	xorg-lib-libXau-devel
 BuildRequires:	xorg-lib-libXdmcp-devel
 BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	zlib-devel
-Requires:	Qt3Support >= %{_qtver}
-Requires:	QtCore >= %{_qtver}
-Requires:	QtDBus >= %{_qtver}
-Requires:	QtDesigner >= %{_qtver}
-Requires:	QtGui >= %{_qtver}
-Requires:	QtNetwork >= %{_qtver}
-Requires:	QtSvg >= %{_qtver}
-Requires:	QtTest >= %{_qtver}
+Requires:	Qt3Support >= %{qtver}
+Requires:	QtCore >= %{qtver}
+Requires:	QtDBus >= %{qtver}
+Requires:	QtDesigner >= %{qtver}
+Requires:	QtGui >= %{qtver}
+Requires:	QtNetwork >= %{qtver}
+Requires:	QtSvg >= %{qtver}
+Requires:	QtTest >= %{qtver}
 Requires:	apr
 Requires:	apr-util
 Requires:	glibc
-Requires:	kde4-kdelibs >= %{_kdever}
+Requires:	kde4-kdelibs >= %{kdever}
 Requires:	libgcc
 Requires:	subversion-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
@@ -70,9 +70,9 @@ Summary:	kdevplatform - header files and development documentation
 Summary(pl.UTF-8):	kdevplatform - pliki nagłówkowe i dokumentacja
 Group:		X11/Development/Libraries
 Requires:	%{name} = %{version}-%{release}
-Requires:	QtDesigner-devel >= %{_qtver}
-Requires:	QtTest-devel >= %{_qtver}
-Requires:	kde4-kdelibs-devel >= %{_kdever}
+Requires:	QtDesigner-devel >= %{qtver}
+Requires:	QtTest-devel >= %{qtver}
+Requires:	kde4-kdelibs-devel >= %{kdever}
 
 %description devel
 This package contains header files and development documentation for
