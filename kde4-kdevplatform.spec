@@ -20,7 +20,6 @@ BuildRequires:	boost-devel
 BuildRequires:	cmake >= 2.8.0
 BuildRequires:	gettext-devel
 BuildRequires:	kde4-kdelibs-devel >= %{kdever}
-BuildRequires:	kde4-kdesdk-kompare >= %{kdever}
 BuildRequires:	libstdc++-devel
 BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	qt4-qmake >= %{qtver}
