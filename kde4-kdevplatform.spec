@@ -1,18 +1,18 @@
-%define		_state		stable
+%define		_state		unstable
 %define		orgname		kdevplatform
-%define		_kdevelopver	4.0.2
-%define		kdever		4.4.5
-%define		qtver		4.6.3
+%define		_kdevelopver	4.0.90
+%define		kdever		4.5.2
+%define		qtver		4.7.0
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	1.0.2
+Version:	1.0.90
 Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	1a92512df7a5d502c06f5575b79bc997
+# Source0-md5:	c652788d44ec4b4b09bc2d26f2ae2068
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtNetwork-devel >= %{qtver}
 BuildRequires:	automoc4
@@ -132,6 +132,14 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevstandardoutputview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevsubversion.so
 %attr(755,root,root) %{_libdir}/kde4/kdevappwizard.so
+%attr(755,root,root) %{_libdir}/kde4/kdevcodeutils.so
+%attr(755,root,root) %{_libdir}/kde4/kdevexternalscript.so
+%attr(755,root,root) %{_libdir}/kde4/kdevgit.so
+%attr(755,root,root) %{_libdir}/kde4/kdevpastebin.so
+%attr(755,root,root) %{_libdir}/libkdevplatformdocumentation.so.2.0.0
+%attr(755,root,root) %ghost %{_libdir}/libkdevplatformdocumentation.so
+%attr(755,root,root) %ghost %{_libdir}/libkdevplatformdocumentation.so.2
+
 %dir %{_datadir}/apps/kdevplatform
 %dir %{_datadir}/apps/kdevplatform/profiles
 %dir %{_datadir}/apps/kdevstandardoutputview
@@ -174,6 +182,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevappwizard/kdevappwizard.rc
 %dir %{_datadir}/apps/kdevappwizard/template_previews
 %{_datadir}/apps/kdevappwizard/template_previews/default-kdevelop.png
+%{_datadir}/apps/kdevcodeutils/kdevcodeutils.rc
+%{_datadir}/apps/kdevexternalscript/kdevexternalscript.rc
+%{_iconsdir}/hicolor/*/apps/git.png
 
 %files devel
 %defattr(644,root,root,755)
