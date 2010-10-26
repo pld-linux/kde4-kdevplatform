@@ -1,18 +1,18 @@
 %define		_state		stable
 %define		orgname		kdevplatform
-%define		_kdevelopver	4.0.2
-%define		kdever		4.4.5
-%define		qtver		4.6.3
+%define		_kdevelopver	4.1.0
+%define		kdever		4.5.1
+%define		qtver		4.7.0
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	1.0.2
+Version:	1.1.0
 Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	1a92512df7a5d502c06f5575b79bc997
+# Source0-md5:	61d7f9dea7712848dc4dd52bf02ea34b
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtNetwork-devel >= %{qtver}
 BuildRequires:	automoc4
@@ -87,6 +87,8 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_libdir}/libkdevplatformdebugger.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkdevplatformdebugger.so.?
+%attr(755,root,root) %{_libdir}/libkdevplatformdocumentation.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libkdevplatformdocumentation.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatforminterfaces.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkdevplatforminterfaces.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformlanguage.so.*.*.*
@@ -114,16 +116,20 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdevsourceformattersettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_uisettings.so
 %attr(755,root,root) %{_libdir}/kde4/kdevclassbrowser.so
+%attr(755,root,root) %{_libdir}/kde4/kdevcodeutils.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcontextbrowser.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcvs.so
 %attr(755,root,root) %{_libdir}/kde4/kdevdocumentswitcher.so
 %attr(755,root,root) %{_libdir}/kde4/kdevdocumentview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevexecute.so
+%attr(755,root,root) %{_libdir}/kde4/kdevexternalscript.so
 %attr(755,root,root) %{_libdir}/kde4/kdevfilemanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgenericmanager.so
+%attr(755,root,root) %{_libdir}/kde4/kdevgit.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgrepview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevkonsoleview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevopenwith.so
+%attr(755,root,root) %{_libdir}/kde4/kdevpastebin.so
 %attr(755,root,root) %{_libdir}/kde4/kdevpatchreview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevproblemreporter.so
 %attr(755,root,root) %{_libdir}/kde4/kdevprojectmanagerview.so
@@ -136,6 +142,8 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_datadir}/apps/kdevplatform/profiles
 %dir %{_datadir}/apps/kdevstandardoutputview
 %{_datadir}/apps/kdevstandardoutputview/kdevstandardoutputview.rc
+%dir %{_datadir}/apps/kdevcodeutils
+%{_datadir}/apps/kdevcodeutils/kdevcodeutils.rc
 %dir %{_datadir}/apps/kdevcvs
 %{_datadir}/apps/kdevcvs/kdevcvs.rc
 %dir %{_datadir}/apps/kdevclassbrowser
@@ -146,6 +154,8 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevdocumentswitcher/kdevdocumentswitcher.rc
 %dir %{_datadir}/apps/kdevdocumentview
 %{_datadir}/apps/kdevdocumentview/kdevdocumentview.rc
+%dir %{_datadir}/apps/kdevexternalscript
+%{_datadir}/apps/kdevexternalscript/kdevexternalscript.rc
 %dir %{_datadir}/apps/kdevgrepview
 %{_datadir}/apps/kdevgrepview/kdevgrepview.rc
 %dir %{_datadir}/apps/kdevfilemanager
@@ -170,6 +180,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/kde4/services/*.desktop
 %{_datadir}/kde4/servicetypes/kdevelopplugin.desktop
 %{_iconsdir}/hicolor/*/actions/*.png
+%{_iconsdir}/hicolor/*/apps/*.png
 %dir %{_datadir}/apps/kdevappwizard
 %{_datadir}/apps/kdevappwizard/kdevappwizard.rc
 %dir %{_datadir}/apps/kdevappwizard/template_previews
@@ -179,6 +190,7 @@ rm -rf $RPM_BUILD_ROOT
 %defattr(644,root,root,755)
 %{_includedir}/kdevplatform
 %{_libdir}/libkdevplatformdebugger.so
+%{_libdir}/libkdevplatformdocumentation.so
 %{_libdir}/libkdevplatforminterfaces.so
 %{_libdir}/libkdevplatformlanguage.so
 %{_libdir}/libkdevplatformoutputview.so
