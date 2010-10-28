@@ -24,6 +24,7 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	qjson-devel
 BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	qt4-qmake >= %{qtver}
+BuildRequires:	soprano-devel
 BuildRequires:	subversion-devel
 BuildRequires:	xorg-lib-libX11-devel
 BuildRequires:	xorg-lib-libXau-devel
