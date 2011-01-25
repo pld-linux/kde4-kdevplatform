@@ -1,18 +1,18 @@
-%define		_state		unstable
+%define		_state		stable
 %define		orgname		kdevplatform
-%define		_kdevelopver	4.1.80
-%define		kdever		4.5.4
-%define		qtver		4.7.0
+%define		_kdevelopver	4.2.0
+%define		kdever		4.6.0
+%define		qtver		4.7.1
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	1.1.80
+Version:	1.2.0
 Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	0553a3bb9e7740ce65cc0b09e342567a
+# Source0-md5:	bcfaa34dccd210faa59ca89ffacee067
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtNetwork-devel >= %{qtver}
 BuildRequires:	automoc4
@@ -24,6 +24,7 @@ BuildRequires:	libstdc++-devel
 BuildRequires:	qjson-devel
 BuildRequires:	qt4-build >= %{qtver}
 BuildRequires:	qt4-qmake >= %{qtver}
+BuildRequires:	rpmbuild(macros) >= 1.600
 BuildRequires:	soprano-devel
 BuildRequires:	subversion-devel
 BuildRequires:	xorg-lib-libX11-devel
@@ -62,9 +63,6 @@ pisaniu własnych programów wykorzystujących kdevplatform.
 install -d build
 cd build
 %cmake \
-	-DCMAKE_BUILD_TYPE=%{!?debug:Release}%{?debug:Debug} \
-	-DCMAKE_INSTALL_PREFIX=%{_prefix} \
-	-DSYSCONF_INSTALL_DIR=%{_sysconfdir} \
 	../
 %{__make}
 
