@@ -1,18 +1,18 @@
 %define		_state		stable
 %define		orgname		kdevplatform
-%define		_kdevelopver	4.2.3
-%define		kdever		4.6.4
-%define		qtver		4.7.3
+%define		_kdevelopver	4.3.0
+%define		kdever		4.8.0
+%define		qtver		4.8.0
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	1.2.3
+Version:	1.3.0
 Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	2b1c36cf02f30351e5fb62dd945e3408
+# Source0-md5:	0db26d2927abac015ae960d67a144c95
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtNetwork-devel >= %{qtver}
 BuildRequires:	automoc4
@@ -85,6 +85,9 @@ rm -rf $RPM_BUILD_ROOT
 
 %files -f %{orgname}.lang
 %defattr(644,root,root,755)
+%attr(755,root,root) %{_bindir}/kdev_dbus_socket_transformer
+%attr(755,root,root) %{_bindir}/kdev_format_source.sh
+%attr(755,root,root) %{_bindir}/kdevplatform_shell_environment.sh
 %attr(755,root,root) %{_libdir}/libkdevplatformdebugger.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkdevplatformdebugger.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformdocumentation.so.*.*.*
@@ -122,6 +125,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevdocumentswitcher.so
 %attr(755,root,root) %{_libdir}/kde4/kdevdocumentview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevexecute.so
+%attr(755,root,root) %{_libdir}/kde4/kdevexecutescript.so
 %attr(755,root,root) %{_libdir}/kde4/kdevexternalscript.so
 %attr(755,root,root) %{_libdir}/kde4/kdevfilemanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgenericmanager.so
@@ -132,13 +136,16 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevpastebin.so
 %attr(755,root,root) %{_libdir}/kde4/kdevpatchreview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevproblemreporter.so
+%attr(755,root,root) %{_libdir}/kde4/kdevprojectdashboard.so
 %attr(755,root,root) %{_libdir}/kde4/kdevprojectmanagerview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevquickopen.so
 %attr(755,root,root) %{_libdir}/kde4/kdevreviewboard.so
 %attr(755,root,root) %{_libdir}/kde4/kdevsnippet.so
 %attr(755,root,root) %{_libdir}/kde4/kdevstandardoutputview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevsubversion.so
+%attr(755,root,root) %{_libdir}/kde4/kdevvcschangesviewplugin.so
 %attr(755,root,root) %{_libdir}/kde4/kdevappwizard.so
+%attr(755,root,root) %{_libdir}/kde4/plasma_kdev_projectfileelement.so
 %dir %{_datadir}/apps/kdevplatform
 %dir %{_datadir}/apps/kdevplatform/profiles
 %dir %{_datadir}/apps/kdevstandardoutputview
