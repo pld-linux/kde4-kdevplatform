@@ -1,18 +1,18 @@
 %define		_state		stable
 %define		orgname		kdevplatform
-%define		_kdevelopver	4.4.1
+%define		_kdevelopver	4.5.0
 %define		kdever		4.8.0
 %define		qtver		4.8.0
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	1.4.1
+Version:	1.5.0
 Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	1ff0566c71a380a37921716dce4ca7c8
+# Source0-md5:	8fa597c3ed8ab65ab64238fd700d63bf
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtNetwork-devel >= %{qtver}
 BuildRequires:	automoc4
@@ -34,6 +34,8 @@ BuildRequires:	xorg-lib-libXext-devel
 BuildRequires:	zlib-devel
 Requires:	subversion-libs
 BuildRoot:	%{tmpdir}/%{name}-%{version}-root-%(id -u -n)
+
+%define         filterout       -flto
 
 %description
 kdevplatform
@@ -70,6 +72,7 @@ cd build
 rm -rf $RPM_BUILD_ROOT
 
 install -d $RPM_BUILD_ROOT%{_datadir}/apps/kdevplatform/profiles
+install -d $RPM_BUILD_ROOT%{_datadir}/apps/kdevfiletemplates/templates
 
 %{__make} -C build install \
 	DESTDIR=$RPM_BUILD_ROOT \
@@ -110,6 +113,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libkdevplatformvcs.so.?
 %attr(755,root,root) %{_libdir}/libsublime.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libsublime.so.?
+%attr(755,root,root) %{_libdir}/libkdevplatformjsontests.so.*.*.*
+%attr(755,root,root) %ghost %{_libdir}/libkdevplatformjsontests.so.?
+%attr(755,root,root) %{_libdir}/grantlee/0.3/kdev_filters.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_bgsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_ccsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_envsettings.so
@@ -128,6 +134,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevexecutescript.so
 %attr(755,root,root) %{_libdir}/kde4/kdevexternalscript.so
 %attr(755,root,root) %{_libdir}/kde4/kdevfilemanager.so
+%attr(755,root,root) %{_libdir}/kde4/kdevfiletemplates.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgenericmanager.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgit.so
 %attr(755,root,root) %{_libdir}/kde4/kdevgrepview.so
@@ -143,8 +150,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevsnippet.so
 %attr(755,root,root) %{_libdir}/kde4/kdevstandardoutputview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevsubversion.so
+%attr(755,root,root) %{_libdir}/kde4/kdevswitchtobuddy.so
+%attr(755,root,root) %{_libdir}/kde4/kdevtemplatemanager_config.so
+%attr(755,root,root) %{_libdir}/kde4/kdevtestview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevvcschangesviewplugin.so
 %attr(755,root,root) %{_libdir}/kde4/kdevappwizard.so
+%dir %{_libdir}/kde4/imports/org/kde/kdevplatform
+%attr(755,root,root) %{_libdir}/kde4/imports/org/kde/kdevplatform/libkdevelopdashboarddeclarativeplugin.so
 %attr(755,root,root) %{_libdir}/kde4/plasma_kdev_projectfileelement.so
 %dir %{_datadir}/apps/kdevplatform
 %dir %{_datadir}/apps/kdevplatform/profiles
@@ -152,6 +164,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevstandardoutputview/kdevstandardoutputview.rc
 %dir %{_datadir}/apps/kdevcodeutils
 %{_datadir}/apps/kdevcodeutils/kdevcodeutils.rc
+%{_datadir}/apps/kdevcodeutils/templates
 %dir %{_datadir}/apps/kdevcvs
 %{_datadir}/apps/kdevcvs/kdevcvs.rc
 %dir %{_datadir}/apps/kdevclassbrowser
@@ -164,6 +177,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevdocumentview/kdevdocumentview.rc
 %dir %{_datadir}/apps/kdevexternalscript
 %{_datadir}/apps/kdevexternalscript/kdevexternalscript.rc
+%dir %{_datadir}/apps/kdevfiletemplates
+%dir %{_datadir}/apps/kdevfiletemplates/templates
+%{_datadir}/apps/kdevfiletemplates/kdevfiletemplates.rc
 %dir %{_datadir}/apps/kdevgrepview
 %{_datadir}/apps/kdevgrepview/kdevgrepview.rc
 %dir %{_datadir}/apps/kdevfilemanager
@@ -182,17 +198,20 @@ rm -rf $RPM_BUILD_ROOT
 %{_datadir}/apps/kdevpatchreview/kdevpatchreview.rc
 %dir %{_datadir}/apps/kdevsession
 %{_datadir}/apps/kdevsession/kdevsessionui.rc
+%dir %{_datadir}/apps/kdevtestview/
+%{_datadir}/apps/kdevtestview/kdevtestview.rc
 %{_datadir}/apps/kdevcodegen
 %dir %{_datadir}/apps/kdevsourceformatter
 %{_datadir}/apps/kdevsourceformatter/kdevsourceformatter.rc
+%{_datadir}/config/kdevappwizard.knsrc
+%{_datadir}/config/kdevfiletemplates.knsrc
 %{_datadir}/kde4/services/*.desktop
 %{_datadir}/kde4/servicetypes/kdevelopplugin.desktop
 %{_iconsdir}/hicolor/*/actions/*.png
 %{_iconsdir}/hicolor/*/apps/*.png
 %dir %{_datadir}/apps/kdevappwizard
 %{_datadir}/apps/kdevappwizard/kdevappwizard.rc
-%dir %{_datadir}/apps/kdevappwizard/template_previews
-%{_datadir}/apps/kdevappwizard/template_previews/default-kdevelop.png
+%{_datadir}/apps/plasma/plasmoids/org.kdevelop.branches
 
 %files devel
 %defattr(644,root,root,755)
@@ -200,6 +219,7 @@ rm -rf $RPM_BUILD_ROOT
 %{_libdir}/libkdevplatformdebugger.so
 %{_libdir}/libkdevplatformdocumentation.so
 %{_libdir}/libkdevplatforminterfaces.so
+%{_libdir}/libkdevplatformjsontests.so
 %{_libdir}/libkdevplatformlanguage.so
 %{_libdir}/libkdevplatformoutputview.so
 %{_libdir}/libkdevplatformproject.so
