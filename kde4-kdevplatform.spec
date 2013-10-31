@@ -1,18 +1,18 @@
 %define		_state		stable
 %define		orgname		kdevplatform
-%define		_kdevelopver	4.5.1
+%define		_kdevelopver	4.5.2
 %define		kdever		4.8.0
 %define		qtver		4.8.0
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	1.5.1
+Version:	1.5.2
 Release:	1
 License:	GPL
 Group:		X11/Development/Tools
-Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
-# Source0-md5:	639a2cbacce0156cd0c61bed74b383c2
+Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.xz
+# Source0-md5:	f0d1d9bd73f051593cd016f2a24be0de
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtNetwork-devel >= %{qtver}
 BuildRequires:	automoc4
@@ -116,7 +116,6 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %ghost %{_libdir}/libsublime.so.?
 %attr(755,root,root) %{_libdir}/libkdevplatformjsontests.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkdevplatformjsontests.so.?
-%attr(755,root,root) %{_libdir}/grantlee/0.3/kdev_filters.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_bgsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_ccsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_envsettings.so
@@ -159,6 +158,9 @@ rm -rf $RPM_BUILD_ROOT
 %dir %{_libdir}/kde4/imports/org/kde/kdevplatform
 %attr(755,root,root) %{_libdir}/kde4/imports/org/kde/kdevplatform/libkdevelopdashboarddeclarativeplugin.so
 %attr(755,root,root) %{_libdir}/kde4/plasma_kdev_projectfileelement.so
+%dir %{_libdir}/kde4/plugins/grantlee
+%dir %{_libdir}/kde4/plugins/grantlee/0.3
+%attr(755,root,root) %{_libdir}/kde4/plugins/grantlee/0.3/kdev_filters.so
 %dir %{_datadir}/apps/kdevplatform
 %dir %{_datadir}/apps/kdevplatform/profiles
 %dir %{_datadir}/apps/kdevstandardoutputview
