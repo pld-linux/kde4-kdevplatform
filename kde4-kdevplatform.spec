@@ -1,18 +1,22 @@
+#
+# TODO: Add 'Requires:' for grantlee version with which it is built
+#
+
 %define		_state		stable
 %define		orgname		kdevplatform
-%define		_kdevelopver	4.5.2
+%define		_kdevelopver	4.6.0
 %define		kdever		4.8.0
 %define		qtver		4.8.0
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	1.5.2
+Version:	1.6.0
 Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.xz
-# Source0-md5:	f0d1d9bd73f051593cd016f2a24be0de
+# Source0-md5:	26d78c5374d35ec48d38b780e011883a
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtNetwork-devel >= %{qtver}
 BuildRequires:	automoc4
@@ -90,7 +94,7 @@ rm -rf $RPM_BUILD_ROOT
 %files -f %{orgname}.lang
 %defattr(644,root,root,755)
 %attr(755,root,root) %{_bindir}/kdev_dbus_socket_transformer
-%attr(755,root,root) %{_bindir}/kdev_format_source.sh
+%attr(755,root,root) %{_bindir}/kdev_format_source
 %attr(755,root,root) %{_bindir}/kdevplatform_shell_environment.sh
 %attr(755,root,root) %{_libdir}/libkdevplatformdebugger.so.*.*.*
 %attr(755,root,root) %ghost %{_libdir}/libkdevplatformdebugger.so.?
@@ -119,8 +123,8 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_bgsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_ccsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_envsettings.so
-%attr(755,root,root) %{_libdir}/kde4/kcm_kdev_genericprojectmanagersettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_pluginsettings.so
+%attr(755,root,root) %{_libdir}/kde4/kcm_kdevprojectfilter.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_projectsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdevsourceformattersettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_uisettings.so
@@ -143,7 +147,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevpastebin.so
 %attr(755,root,root) %{_libdir}/kde4/kdevpatchreview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevproblemreporter.so
-%attr(755,root,root) %{_libdir}/kde4/kdevprojectdashboard.so
+%attr(755,root,root) %{_libdir}/kde4/kdevprojectfilter.so
 %attr(755,root,root) %{_libdir}/kde4/kdevprojectmanagerview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevquickopen.so
 %attr(755,root,root) %{_libdir}/kde4/kdevreviewboard.so
@@ -155,12 +159,9 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevtestview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevvcschangesviewplugin.so
 %attr(755,root,root) %{_libdir}/kde4/kdevappwizard.so
-%dir %{_libdir}/kde4/imports/org/kde/kdevplatform
-%attr(755,root,root) %{_libdir}/kde4/imports/org/kde/kdevplatform/libkdevelopdashboarddeclarativeplugin.so
-%attr(755,root,root) %{_libdir}/kde4/plasma_kdev_projectfileelement.so
 %dir %{_libdir}/kde4/plugins/grantlee
-%dir %{_libdir}/kde4/plugins/grantlee/0.3
-%attr(755,root,root) %{_libdir}/kde4/plugins/grantlee/0.3/kdev_filters.so
+%dir %{_libdir}/kde4/plugins/grantlee/*
+%attr(755,root,root) %{_libdir}/kde4/plugins/grantlee/*/kdev_filters.so
 %dir %{_datadir}/apps/kdevplatform
 %dir %{_datadir}/apps/kdevplatform/profiles
 %dir %{_datadir}/apps/kdevstandardoutputview
@@ -214,7 +215,6 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/hicolor/*/apps/*.png
 %dir %{_datadir}/apps/kdevappwizard
 %{_datadir}/apps/kdevappwizard/kdevappwizard.rc
-%{_datadir}/apps/plasma/plasmoids/org.kdevelop.branches
 
 %files devel
 %defattr(644,root,root,755)
