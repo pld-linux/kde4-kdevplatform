@@ -4,19 +4,19 @@
 
 %define		_state		stable
 %define		orgname		kdevplatform
-%define		_kdevelopver	4.6.0
+%define		_kdevelopver	4.7.0
 %define		kdever		4.8.0
 %define		qtver		4.8.0
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	1.6.0
+Version:	1.7.0
 Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.xz
-# Source0-md5:	26d78c5374d35ec48d38b780e011883a
+# Source0-md5:	72375e077f97b44056c76c7f85ce49ad
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtNetwork-devel >= %{qtver}
 BuildRequires:	automoc4
@@ -128,6 +128,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_projectsettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdevsourceformattersettings.so
 %attr(755,root,root) %{_libdir}/kde4/kcm_kdev_uisettings.so
+%attr(755,root,root) %{_libdir}/kde4/kdevbazaar.so
 %attr(755,root,root) %{_libdir}/kde4/kdevclassbrowser.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcodeutils.so
 %attr(755,root,root) %{_libdir}/kde4/kdevcontextbrowser.so
@@ -147,6 +148,7 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevpastebin.so
 %attr(755,root,root) %{_libdir}/kde4/kdevpatchreview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevproblemreporter.so
+%attr(755,root,root) %{_libdir}/kde4/kdevprojectdashboard.so
 %attr(755,root,root) %{_libdir}/kde4/kdevprojectfilter.so
 %attr(755,root,root) %{_libdir}/kde4/kdevprojectmanagerview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevquickopen.so
@@ -159,9 +161,13 @@ rm -rf $RPM_BUILD_ROOT
 %attr(755,root,root) %{_libdir}/kde4/kdevtestview.so
 %attr(755,root,root) %{_libdir}/kde4/kdevvcschangesviewplugin.so
 %attr(755,root,root) %{_libdir}/kde4/kdevappwizard.so
+%attr(755,root,root) %{_libdir}/kde4/plasma_kdev_projectfileelement.so
 %dir %{_libdir}/kde4/plugins/grantlee
 %dir %{_libdir}/kde4/plugins/grantlee/*
 %attr(755,root,root) %{_libdir}/kde4/plugins/grantlee/*/kdev_filters.so
+%dir %{_libdir}/kde4/imports/org/kde/kdevplatform
+%{_libdir}/kde4/imports/org/kde/kdevplatform/qmldir
+%attr(755,root,root) %{_libdir}/kde4/imports/org/kde/kdevplatform/libkdevelopdashboarddeclarativeplugin.so
 %dir %{_datadir}/apps/kdevplatform
 %dir %{_datadir}/apps/kdevplatform/profiles
 %dir %{_datadir}/apps/kdevstandardoutputview
@@ -215,6 +221,9 @@ rm -rf $RPM_BUILD_ROOT
 %{_iconsdir}/hicolor/*/apps/*.png
 %dir %{_datadir}/apps/kdevappwizard
 %{_datadir}/apps/kdevappwizard/kdevappwizard.rc
+%dir %{_datadir}/apps/kdevelop
+%{_datadir}/apps/kdevelop/*.qml
+%{_datadir}/apps/plasma/plasmoids/org.kdevelop.branches
 
 %files devel
 %defattr(644,root,root,755)
