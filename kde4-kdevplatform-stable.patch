@@ -1,0 +1,1091 @@
+diff --git a/debugger/util/treeitem.cpp b/debugger/util/treeitem.cpp
+index e92f3bf..5b078bf 100644
+--- a/debugger/util/treeitem.cpp
++++ b/debugger/util/treeitem.cpp
+@@ -51,7 +51,6 @@ void TreeItem::setData(const QVector<QVariant> &data)
+ void TreeItem::appendChild(TreeItem *item, bool initial)
+ {
+     QModelIndex index = model_->indexForItem(this, 0);
+-    QModelIndex index2 = model_->indexForItem(this, itemData.size()-1);
+ 
+     // Note that we need emit beginRemoveRows, even if we're replacing
+     // ellipsis item with the real one.  The number of rows does not change
+diff --git a/language/backgroundparser/parseprojectjob.cpp b/language/backgroundparser/parseprojectjob.cpp
+index 8b83a90..cf5fa34 100644
+--- a/language/backgroundparser/parseprojectjob.cpp
++++ b/language/backgroundparser/parseprojectjob.cpp
+@@ -91,6 +91,11 @@ void ParseProjectJob::start() {
+         return;
+     }
+ 
++    if (m_filesToParse.isEmpty()) {
++        deleteLater();
++        return;
++    }
++
+     kDebug() << "starting project parse job";
+ 
+     TopDUContext::Features processingLevel = m_filesToParse.size() < ICore::self()->languageController()->completionSettings()->minFilesForSimplifiedParsing() ?
+diff --git a/plugins/documentview/kdevdocumentview.cpp b/plugins/documentview/kdevdocumentview.cpp
+index bedb385..8d1cd4a 100644
+--- a/plugins/documentview/kdevdocumentview.cpp
++++ b/plugins/documentview/kdevdocumentview.cpp
+@@ -166,8 +166,6 @@ void KDevDocumentView::reloadSelected()
+ void KDevDocumentView::contextMenuEvent( QContextMenuEvent * event )
+ {
+     QModelIndex proxyIndex = indexAt( event->pos() );
+-    QModelIndex index = m_proxy->mapToSource( proxyIndex );
+-
+     // for now, ignore clicks on empty space or folder items
+     if (!proxyIndex.isValid() || !proxyIndex.parent().isValid()) {
+         return;
+diff --git a/plugins/externalscript/externalscriptplugin.cpp b/plugins/externalscript/externalscriptplugin.cpp
+index 87b889c..678a7cb 100644
+--- a/plugins/externalscript/externalscriptplugin.cpp
++++ b/plugins/externalscript/externalscriptplugin.cpp
+@@ -252,7 +252,8 @@ void ExternalScriptPlugin::execute( ExternalScriptItem* item, const KUrl& url )
+ 
+ void ExternalScriptPlugin::execute(ExternalScriptItem* item) const
+ {
+-  execute( item, KDevelop::ICore::self()->documentController()->activeDocument()->url() );
++  auto document = KDevelop::ICore::self()->documentController()->activeDocument();
++  execute( item, document ? document->url() : KUrl() );
+ }
+ 
+ bool ExternalScriptPlugin::executeCommand ( QString command, QString workingDirectory ) const
+diff --git a/plugins/konsole/kdevkonsoleview.desktop.cmake b/plugins/konsole/kdevkonsoleview.desktop.cmake
+index 49f993c..6ab3aae 100644
+--- a/plugins/konsole/kdevkonsoleview.desktop.cmake
++++ b/plugins/konsole/kdevkonsoleview.desktop.cmake
+@@ -27,7 +27,7 @@ Comment[pt]=Este 'plugin' oferece ao KDevelop uma consola incorporada para um ac
+ Comment[pt_BR]=Este plugin fornece ao KDevelop um terminal embutido para acesso rápido e fácil à linha de comando.
+ Comment[ru]=Это расширение добавляет в KDevelop встроенный терминал для быстрого и лёгкого доступа к командной строке.
+ Comment[sk]=Tento plugin poskytuje KDevelop so zabudovanou konzolou na rýchly a ľahký prístup k príkazovému riadku.
+-Comment[sl]=Vstavek v KDevelop prinaša vgrajeno konzolo za hiter in preprost dostop do ukazne vrstice.
++Comment[sl]=Vstavek v KDevelop prinaša vgrajen program Konsole za hiter in preprost dostop do ukazne vrstice.
+ Comment[sv]=Insticksprogrammet ger KDevelop en inbyggd terminal för snabb och enkel åtkomst av kommandoraden.
+ Comment[tr]=Bu eklenti, komut satırına kolayca erişebilmeniz için KDevelop içerisinde gömülü bir uçbirim sağlar.
+ Comment[uk]=За допомогою цього додатка у KDevelop можна буде скористатися вбудованою konsole, яка пришвидшить і полегшить доступ до командного рядка.
+@@ -60,7 +60,7 @@ Name[pt]=Integração com o Konsole
+ Name[pt_BR]=Integração com o Konsole
+ Name[ru]=Интеграция Konsole
+ Name[sk]=Integrácia Konsole
+-Name[sl]=Vgrajena konzola
++Name[sl]=Vgrajen program Konsole
+ Name[sv]=Integrering av Konsole
+ Name[tr]=Konsole Bütünleşmesi
+ Name[ug]=Konsole يۈرۈشلەشتۈرۈلۈشى
+diff --git a/plugins/patchreview/patchreview.cpp b/plugins/patchreview/patchreview.cpp
+index 2977c40..18b63db 100644
+--- a/plugins/patchreview/patchreview.cpp
++++ b/plugins/patchreview/patchreview.cpp
+@@ -302,7 +302,9 @@ private:
+ 
+ PatchReviewPlugin::~PatchReviewPlugin() {
+     removeHighlighting();
+-    delete m_patch;
++    // Tweak to work around a crash on OS X; see https://bugs.kde.org/show_bug.cgi?id=338829
++    // and http://qt-project.org/forums/viewthread/38406/#162801
++    m_patch->deleteLater();
+ }
+ 
+ void PatchReviewPlugin::clearPatch( QObject* _patch ) {
+diff --git a/plugins/projectfilter/filter.cpp b/plugins/projectfilter/filter.cpp
+index 2038e2a..ddcf295 100644
+--- a/plugins/projectfilter/filter.cpp
++++ b/plugins/projectfilter/filter.cpp
+@@ -77,7 +77,7 @@ SerializedFilters defaultFilters()
+     // common vcs folders which we want to hide
+     static const QVector<QString> invalidFolders = QVector<QString>()
+         << ".git" << "CVS" << ".svn" << "_svn"
+-        << "SCCS" << "_darcs" << ".hg" << ".bzr";
++        << "SCCS" << "_darcs" << ".hg" << ".bzr" << "__pycache__";
+     foreach(const QString& folder, invalidFolders) {
+         ret << SerializedFilter(folder, Filter::Folders);
+     }
+@@ -91,7 +91,7 @@ SerializedFilters defaultFilters()
+         // backup files
+         << "*~" << ".*.kate-swp" << ".*.swp"
+         // python cache and object files
+-        << "*.pyc" << "*.pyo" << "__pycache__";
++        << "*.pyc" << "*.pyo";
+     foreach(const QString& filePattern, filePatterns) {
+         ret << SerializedFilter(filePattern, Filter::Files);
+     }
+diff --git a/plugins/standardoutputview/outputwidget.cpp b/plugins/standardoutputview/outputwidget.cpp
+index 3b12aca..c9d739b 100644
+--- a/plugins/standardoutputview/outputwidget.cpp
++++ b/plugins/standardoutputview/outputwidget.cpp
+@@ -393,7 +393,7 @@ void OutputWidget::activateIndex(const QModelIndex &index, QAbstractItemView *vi
+ 
+ void OutputWidget::selectNextItem()
+ {
+-    selectItem(Previous);
++    selectItem(Next);
+ }
+ 
+ void OutputWidget::selectPrevItem()
+@@ -422,7 +422,7 @@ void OutputWidget::selectItem(Direction direction)
+         ? iface->previousHighlightIndex( index )
+         : iface->nextHighlightIndex( index );
+ 
+-    kDebug() << "selecting item" << select << index << newIndex;
++    kDebug() << "old:" << index << "- new:" << newIndex;
+     activateIndex(newIndex, view, iface);
+ }
+ 
+diff --git a/shell/languagecontroller.cpp b/shell/languagecontroller.cpp
+index 817c1ce..0dec986 100644
+--- a/shell/languagecontroller.cpp
++++ b/shell/languagecontroller.cpp
+@@ -297,11 +297,12 @@ QList<ILanguage*> LanguageController::languagesForUrl(const KUrl &url)
+         return languages;
+ 
+     KMimeType::Ptr mimeType;
+-    
++
++    int accuracy = 0;
+     if(!extension.isEmpty()) {
+         // If we have recognized a file extension, allow using the file-contents
+         // to look up the type. We will cache it after all.
+-        mimeType = KMimeType::findByUrl(url);
++        mimeType = KMimeType::findByUrl(url, 0, false, false, &accuracy);
+     } else {
+         // If we have not recognized a file extension, do not allow using the file-contents
+         // to look up the type. We cannot cache the result, and thus we might end up reading
+@@ -319,8 +320,11 @@ QList<ILanguage*> LanguageController::languagesForUrl(const KUrl &url)
+ 
+     languages = languagesForMimetype(mimeType->name());
+ 
+-    if(!extension.isEmpty())
++    // E.g. because  of some txt file that begins with /* and considered as c++ file
++    // we don't want the c++ language support to parse all txt files.
++    if(!extension.isEmpty() && accuracy > 80) {
+         d->fileExtensionCache.insert(extension, languages);
++    }
+ 
+     return languages;
+ }
+diff --git a/shell/project.cpp b/shell/project.cpp
+index 6b2ab79..59b3ad0 100644
+--- a/shell/project.cpp
++++ b/shell/project.cpp
+@@ -484,7 +484,7 @@ Path Project::path() const
+ 
+ void Project::reloadModel()
+ {
+-    qDebug() << "reload!!!!!!!" << d->loading;
++    kDebug() << d->loading;
+     if (d->loading) {
+         d->scheduleReload = true;
+         return;
+diff --git a/util/kdev_format_source b/util/kdev_format_source
+index 0cd8589..84434b1 100644
+--- a/util/kdev_format_source
++++ b/util/kdev_format_source
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ # Author: David Nolden <david.nolden.kdevelop@art-master.de>
+ # This script is made available under the GPLv2 licence.
+@@ -22,8 +22,8 @@
+ ORIGFILE=$1
+ TMPFILE=$2
+ 
+-if [ -z "$ORIGFILE" ]; then
+-    echo "Usage: $(basename $0) FILE [TEMPFILE]"
++if ! [ "$ORIGFILE" ]; then
++    echo "Usage: $(basename $0) [FILE] [TEMPFILE]"
+     echo ""
+     echo "Where FILE represents the original location of the formatted contents,"
+     echo "and TEMPFILE is used as the actual, potentially different,"
+@@ -31,32 +31,32 @@ if [ -z "$ORIGFILE" ]; then
+     exit
+ fi
+ 
+-ORIGFILE="$(readlink -f "$ORIGFILE")"
++ORIGFILE=$(readlink -f $ORIGFILE)
+ 
+-if [ -z "$TMPFILE" ]; then
++if ! [ $TMPFILE ]; then
+     echo "No tempfile given, formatting the original file"
+     TMPFILE=$ORIGFILE
+ else
+-    TMPFILE=$(readlink -f "$TMPFILE")
++    TMPFILE=$(readlink -f $TMPFILE)
+ fi
+ 
+ # Helper: Returns the relative path from a given source directory to a target path
+-relativePath() {
++function relativePath {
+     source=$1
+     target=$2
+ 
+     common_part=$source
+     back=
+     while [ "${target#$common_part}" = "${target}" ]; do
+-        common_part="$(dirname "$common_part")"
+-        back="../${back}"
++    common_part=$(dirname $common_part)
++    back="../${back}"
+     done
+ 
+-    echo "${back}${target#$common_part/}"
++    echo ${back}${target#$common_part/}
+ }
+ 
+ # Go to the directory of the original file, and start searching for "format_sources" files upwards
+-cd -- "$(dirname "$ORIGFILE")"
++cd $(dirname $ORIGFILE)
+ 
+ while ! [ "$(pwd)" == "/" ]; do
+ 
+@@ -69,28 +69,29 @@ while ! [ "$(pwd)" == "/" ]; do
+ #             echo "Line: $line"
+             # Split by the ":" which is the delimiter between wildcards
+             IFS="\:"
++            array=
++            pos=0
+             
+             # remove leading whitespace
+             line="${line#"${line%%[![:space:]]*}"}"
+ 
+-            if [ -z "$line" ]; then 
+-                # ignore empty lines
+-                continue
+-            fi
+-
+-            case "$line" in
+-            \#*)
++            if [[ "$line" == \#* ]] || ! [ "$line" ]; then 
+                 # Ignore lines starting with #
+                 # Those can be used for comments.
+-                continue ;;
+-            esac
++                # Also ignore empty lines
++                continue
++            fi
+             
+-	    set -- $line
++            for item in $line;
++            do
++                array[$pos]=$item
++                pos=$(($pos+1))
++            done
+             
+-            if [ $# -eq 2 ]; then
++            if [ $pos == "2" ]; then
+                 # We found the correct syntax with "wildcards : command"
+-                WILDCARDS="$1"
+-                COMMAND="$2"
++                WILDCARDS=${array[0]}
++                COMMAND=${array[1]}
+                 
+                 MATCHED=0
+                 
+@@ -105,21 +106,19 @@ while ! [ "$(pwd)" == "/" ]; do
+                     set +f
+                     # This if-command does wildcard matching
+ #                     echo "matching $RELATIVE_ORIGFILE and $WILDCARD"
+-                    case $RELATIVE_ORIGFILE in
+-                    $WILDCARD)
++                    if [[ "$RELATIVE_ORIGFILE" == $WILDCARD ]]; then
+                         echo "matched $RELATIVE_ORIGFILE with wildcard $WILDCARD, using command \"$COMMAND\""
+                         eval $COMMAND
+                         exit
+-                        ;;
+-                    esac
++                    fi
+                     set -f
+                 done
+                 set +f
+             fi
+             
+-            if [ $# -eq 1 ]; then
++            if [ $pos == "1" ]; then
+                 # We found the simple syntax without wildcards, and only with the command
+-                COMMAND="$1"
++                COMMAND=${array[0]}
+                 echo "matched without wildcard, using command $COMMAND"
+                 eval $COMMAND
+                 exit
+diff --git a/util/kdevplatform_shell_environment.sh b/util/kdevplatform_shell_environment.sh
+index 83ccba5..216e8c3 100755
+--- a/util/kdevplatform_shell_environment.sh
++++ b/util/kdevplatform_shell_environment.sh
+@@ -1,4 +1,4 @@
+-#!/bin/sh
++#!/bin/bash
+ 
+ # This file is part of KDevelop
+ # Copyright 2011 David Nolden <david.nolden.kdevelop@art-master.de>
+@@ -18,24 +18,20 @@
+ # the Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+ # Boston, MA 02110-1301, USA.
+ 
+-# NOTE: While this script is more or less portable, it uses exclamation
+-# mark in function names, which goes beyond the SUS/POSIX specs. This is
+-# known to break with dash (Debian shell) at least.
+-
+-if [ -n "$KDEV_REAL_ENV" ]; then
+-    # Since this runs as a replacement for the init-file, we need to chain in the 'real' one
+-    . "$KDEV_REAL_ENV"
++if [ -e ~/.bashrc ]; then
++    # Since this runs as a replacement for the init-file, we need to chain in the 'real' bash-rc
++    source ~/.bashrc
+ fi
+ 
+-if [ -z "$APPLICATION_HOST" ]; then
++if ! [ "$APPLICATION_HOST" ]; then
+     export APPLICATION_HOST=$(hostname)
+ fi
+ 
+-if [ -z "$KDEV_SHELL_ENVIRONMENT_ID" ]; then
++if ! [ "$KDEV_SHELL_ENVIRONMENT_ID" ]; then
+     export KDEV_SHELL_ENVIRONMENT_ID="default"
+ fi
+ 
+-if [ -z "$KDEV_DBUS_ID" ]; then
++if ! [ "$KDEV_DBUS_ID" ]; then
+     echo "The required environment variable KDEV_DBUS_ID is not set. This variable defines the dbus id of the application instance instance which is supposed to be attached."
+     exit 5
+ fi
+@@ -51,9 +47,9 @@ if ! [ -e "$KDEV_BASEDIR/kdev_dbus_socket_transformer" ]; then
+ fi
+ 
+ # Takes a list of tools, and prints a warning of one of them is not available in the path
+-checkToolsInPath() {
+-    for TOOL in "$@"; do
+-        if [ -z "$(command -v $TOOL 2> /dev/null)" ]; then
++function checkToolsInPath {
++    for TOOL in $@; do
++        if ! [ "$(which $TOOL 2> /dev/null)" ]; then
+             echo "The utility $TOOL is not in your path, the shell integration will not work properly."
+         fi
+     done
+@@ -62,33 +58,33 @@ checkToolsInPath() {
+ # Check if all required tools are there (on the host machine)
+ checkToolsInPath sed qdbus ls cut dirname mktemp basename readlink hostname
+ 
+-if [ -n "$KDEV_SSH_FORWARD_CHAIN" ]; then
++if ! [ "$KDEV_SSH_FORWARD_CHAIN" ]; then
+     # Check for additional utilities that are required on the client machine
+     checkToolsInPath kioclient
+ fi
+ 
+ # Queries the session name from the running application instance
+-getSessionName() {
+-    qdbus "$KDEV_DBUS_ID" /kdevelop/SessionController org.kdevelop.kdevelop.KDevelop.SessionController.sessionName
++function getSessionName {
++    echo "$(qdbus $KDEV_DBUS_ID /kdevelop/SessionController org.kdevelop.kdevelop.KDevelop.SessionController.sessionName)"
+ }
+ 
+-getSessionDir() {
+-    qdbus "$KDEV_DBUS_ID" /kdevelop/SessionController org.kdevelop.kdevelop.KDevelop.SessionController.sessionDir
++function getSessionDir {
++    echo "$(qdbus $KDEV_DBUS_ID /kdevelop/SessionController org.kdevelop.kdevelop.KDevelop.SessionController.sessionDir)"
+ }
+ 
+-getCurrentShellEnvPath() {
+-    local ENV_ID="$KDEV_SHELL_ENVIRONMENT_ID"
+-    if [ -n "$1" ]; then
+-        ENV_ID="$1"
++function getCurrentShellEnvPath {
++    local ENV_ID=$KDEV_SHELL_ENVIRONMENT_ID
++    if [ "$1" ]; then
++        ENV_ID=$1
+     fi
+ 
+     echo "$(getSessionDir)/${ENV_ID}.sh"
+ }
+ 
+-help! () {
++function help! {
+     echo "You are controlling the $APPLICATION session '$(getSessionName)'"
+     echo ""
+-    if [ "X$1" = X ]; then
++    if [ "$1" == "" ]; then
+     echo "Standard commands:"
+     echo "raise!                                 - Raise the window."
+     echo "sync!                                  - Synchronize the working directory with the currently open document. See \"help! sync\""
+@@ -108,7 +104,7 @@ help! () {
+     echo "Most commands can be abbreviated by the first character(s), eg. r! instead of raise!, and se! instead of search!."
+     fi
+ 
+-    if [ X"$1" = "Xopen" ]; then
++    if [ "$1" == "open" ]; then
+     echo "Extended opening:"
+     echo "The open! command can also be used to open files in specific tool-view configurations, by adding split-separators:"
+     echo "- Files around the / separator will be arranged horizontally by split-view."
+@@ -127,7 +123,7 @@ help! () {
+     echo "Short forms: o! = open!, eo! = eopen!, c! = create!"
+     fi
+ 
+-    if [ "X$1" = "Xsync" ]; then
++    if [ "$1" == "sync" ]; then
+     echo "Extended syncing:"
+     echo "sync!    [[project-name]]           - If no project-name is given, then the sync! command synchronizes to the currently active document."
+     echo "                                      If no document is active, then it synchronizes to the currently selected item in the project tree-view."
+@@ -141,7 +137,7 @@ help! () {
+     echo "Short forms: s! = sync!, ss! = syncsel!, p! = project!, b! = bdir!"
+     fi
+ 
+-    if [ "X$1" = "Xremote" ]; then
++    if [ "$1" == "remote" ]; then
+     echo "Extended remote commands:"
+     echo "ssh!  [ssh arguments]                  - Connect to a remote host via ssh, keeping the control-connection alive."
+     echo "                                       - The whole dbus environment is forwarded, KDevelop needs to be installed on both sides."
+@@ -156,7 +152,7 @@ help! () {
+     echo "Short forms: e! = exec!, ce! = cexec!, cth! = copytohost!, ctc! = copytoclient!"
+     fi
+ 
+-    if [ "X$1" = "Xenv" ]; then
++    if [ "$1" == "env" ]; then
+       echo "Environment management:"
+       echo "The environment can be used to store session-specific macros and generally manipulate the shell environment"
+       echo "for embedded shell sessions. The environment is sourced into the shell when the shell is initialized, and"
+@@ -174,126 +170,126 @@ help! () {
+ 
+ # Short versions of the commands:
+ 
+-r! () {
+-    "raise!" "$@"
++function r! {
++    raise! $@
+ }
+ 
+-s! () {
+-    "sync!" "$@"
++function s! {
++    sync! $@
+ }
+ 
+-ss! () {
+-    "syncsel!"
++function ss! {
++    syncsel!
+ }
+ 
+-syncsel! () {
+-    "sync!" '[selection]'
++function syncsel! {
++    sync! '[selection]'
+ }
+ 
+-p! () {
+-    if [ $# -gt 0 ]; then
+-        "s!" "$@"
++function p! {
++    if [ "$@" ]; then
++        s! $@
+     fi
+-    "project!"
++    project!
+ }
+ 
+-b! () {
+-    if [ $# -gt 0 ]; then
+-        "s!" "$@"
++function b! {
++    if [ "$@" ]; then
++        s! $@
+     fi
+-    "bdir!"
++    bdir!
+ }
+ 
+-o! () {
+-    "open!" "$@"
++function o! {
++    open! $@
+ }
+ 
+-eo! () {
+-    "eopen!" "$@"
++function eo! {
++    eopen! $@
+ }
+ 
+-e! () {
+-    "exec!" "$@"
++function e! {
++    exec! $@
+ }
+ 
+-ce! () {
+-    "cexec!" "$@"
++function ce! {
++    cexec! $@
+ }
+ 
+-c! () {
+-    "create!" "$@"
++function c! {
++    create! $@
+ }
+ 
+-se! () {
+-    "search!" "$@"
++function se! {
++    search! $@
+ }
+ 
+-ds! () {
+-    "dsearch!" "$@"
++function ds! {
++    dsearch! $@
+ }
+ 
+-h! () {
+-    "help!" "$@"
++function h! {
++    help! $@
+ }
+ 
+-cth! () {
+-    "copytohost!" "$@"
++function cth! {
++    copytohost! $@
+ }
+ 
+-ctc! () {
+-    "copytoclient!" "$@"
++function ctc! {
++    copytoclient! $@
+ }
+ 
+-sev! () {
+-    "setenv!" "$@"
++function sev! {
++    setenv! $@
+ }
+ 
+-ee! () {
+-    "editenv!" "$@"
++function ee! {
++    editenv! $@
+ }
+ 
+-shev! () {
+-    "showenv!" "$@"
++function shev! {
++    showenv! $@
+ }
+ 
+ # Internals:
+ 
+ # Opens a document in internally in the application
+-openDocument () {
++function openDocument {
+     RESULT=$(qdbus $KDEV_DBUS_ID /org/kdevelop/DocumentController org.kdevelop.DocumentController.openDocumentSimple $1)
+-    if ! [ "X$RESULT" == "Xtrue" ]; then
++    if ! [ "$RESULT" == "true" ]; then
+         echo "Failed to open $1"
+     fi
+ }
+ 
+ # Opens a document in internally in the application
+-openDocuments () {
++function openDocuments {
+     RESULT=$(qdbus $KDEV_DBUS_ID /org/kdevelop/DocumentController org.kdevelop.DocumentController.openDocumentsSimple "(" $1 ")")
+-    if ! [ "X$RESULT" == "Xtrue" ]; then
++    if ! [ "$RESULT" == "true" ]; then
+         echo "Failed to open $1"
+     fi
+ }
+ 
+ # Executes a command on the client machine using the custom-script integration.
+ # First argument: The full command. Second argument: The working directory.
+-executeInApp () {
++function executeInApp {
+     local CMD="$1"
+     local WD=$2
+-    if [ -z "$WD" ]; then
++    if ! [ "$WD" ]; then
+         WD=$(pwd)
+     fi
+     RESULT=$(qdbus $KDEV_DBUS_ID /org/kdevelop/ExternalScriptPlugin org.kdevelop.ExternalScriptPlugin.executeCommand "$CMD" "$WD")
+-    if [ "X$RESULT" == "Xtrue" ]; then
++    if ! [ "$RESULT" == "true" ]; then
+         echo "Execution failed"
+     fi
+ }
+ 
+ # First argument: The full command. Second argument: The working directory.
+ # Executes the command silently and synchronously, and returns the output
+-executeInAppSync () {
++function executeInAppSync {
+     local CMD=$1
+     local WD=$2
+-    if [ -z "$WD" ]; then
++    if ! [ "$WD" ]; then
+         WD=$(pwd)
+     fi
+     RESULT=$(qdbus $KDEV_DBUS_ID /org/kdevelop/ExternalScriptPlugin org.kdevelop.ExternalScriptPlugin.executeCommandSync "$CMD" "$WD")
+@@ -302,31 +298,31 @@ executeInAppSync () {
+ 
+ # Getter functions:
+ 
+-getActiveDocument () {
+-    qdbus "$KDEV_DBUS_ID" /org/kdevelop/DocumentController org.kdevelop.DocumentController.activeDocumentPath "$@"
++function getActiveDocument {
++    qdbus $KDEV_DBUS_ID /org/kdevelop/DocumentController org.kdevelop.DocumentController.activeDocumentPath $@
+ }
+ 
+-getOpenDocuments () {
+-    qdbus "$KDEV_DBUS_ID" /org/kdevelop/DocumentController org.kdevelop.DocumentController.activeDocumentPaths
++function getOpenDocuments {
++    qdbus $KDEV_DBUS_ID /org/kdevelop/DocumentController org.kdevelop.DocumentController.activeDocumentPaths
+ }
+ 
+-raise! () {
+-    qdbus "$KDEV_DBUS_ID" /kdevelop/MainWindow org.kdevelop.MainWindow.ensureVisible
++function raise! {
++    qdbus $KDEV_DBUS_ID /kdevelop/MainWindow org.kdevelop.MainWindow.ensureVisible
+ }
+ 
+-bdir! () {
+-    TARG=$(qdbus "$KDEV_DBUS_ID" /org/kdevelop/ProjectController org.kdevelop.ProjectController.mapSourceBuild "$(pwd)" false)
+-    if [ -n "$TARG" ]; then
+-        cd -- "$TARG"
++function bdir! {
++    TARG=$(qdbus $KDEV_DBUS_ID /org/kdevelop/ProjectController org.kdevelop.ProjectController.mapSourceBuild "$(pwd)" false)
++    if [ "$TARG" ]; then
++        cd $TARG
+     else
+         echo "Got no path"
+     fi
+ }
+ 
+-project! () {
+-    TARG=$(qdbus "$KDEV_DBUS_ID" /org/kdevelop/ProjectController org.kdevelop.ProjectController.mapSourceBuild "$(pwd)" true)
+-    if [ -n "$TARG" ]; then
+-        cd -- "$TARG"
++function project! {
++    TARG=$(qdbus $KDEV_DBUS_ID /org/kdevelop/ProjectController org.kdevelop.ProjectController.mapSourceBuild "$(pwd)" true)
++    if [ "$TARG" ]; then
++        cd $TARG
+     else
+         echo "Got no path"
+     fi
+@@ -335,16 +331,15 @@ project! () {
+ 
+ # Main functions:
+ 
+-raise!() {
+-    qdbus "$KDEV_DBUS_ID" /kdevelop/MainWindow org.kdevelop.MainWindow.ensureVisible
++function raise! {
++    qdbus $KDEV_DBUS_ID /kdevelop/MainWindow org.kdevelop.MainWindow.ensureVisible
+ }
+ 
+-sync!() {
++function sync! {
+     local P=$(getActiveDocument $@)
+-    if [ -n "$P" ]; then
++    if [ "$P" ]; then
+ 
+-        case $P in
+-        fish://*)
++        if [[ "$P" == fish://* ]]; then
+             # This regular expression filters the user@host:port out of fish:///user@host:port/path/...
+             LOGIN=$(echo $P | sed "s/fish\:\/\/*\([^\/]*\)\(\/.*\)/\1/")
+             P_ON_HOST=$(echo $P | sed "s/fish\:\/\/*\([^\/]*\)\(\/.*\)/\2/")
+@@ -375,21 +370,18 @@ sync!() {
+                     return
+                 fi
+             fi
+-            ;;
+-        *)
+-            if [ "$KDEV_SSH_FORWARD_CHAIN" ]; then
+-                # This session is being forwarded to another machine, but the current document is not
+-                # However, we won't complain, because it's possible that the machines share the same file-system
+-                if [ $(isEqualFileOnHostAndClient $P) != "yes" ]; then
+-                    echo "Cannot synchronize the working directory, because the file systems do not match"
+-                    return
+-                fi
++
++        elif [ "$KDEV_SSH_FORWARD_CHAIN" ]; then
++            # This session is being forwarded to another machine, but the current document is not
++            # However, we won't complain, because it's possible that the machines share the same file-system
++            if [ $(isEqualFileOnHostAndClient $P) != "yes" ]; then
++                echo "Cannot synchronize the working directory, because the file systems do not match"
++                return
+             fi
+-            ;;
+-        esac
++        fi
+ 
+         [ -d "$P" ] || P=$(dirname "$P")
+-        cd -- "$P"
++        cd "$P"
+     else
+         echo "Got no path"
+     fi
+@@ -397,14 +389,14 @@ sync!() {
+ 
+ # Take a path, and returns "yes" if the equal file is available on the host and the client
+ # The check is performed by comparing inode-numbers
+-isEqualFileOnHostAndClient() {
+-    trimWhiteSpace() {
+-        printf "%s" "$1"
++function isEqualFileOnHostAndClient {
++    function trimWhiteSpace() {
++        echo $1
+     }
+ 
+     FILE=$1
+-    INODE_HOST=$(trimWhiteSpace $(/bin/ls -i "$FILE" | cut -d' ' -f1) )
+-    INODE_CLIENT=$(trimWhiteSpace $(executeInAppSync "/bin/ls -i $FILE | cut -d' ' -f1" "$(dirname "$FILE")"))
++    INODE_HOST=$(trimWhiteSpace $(ls --color=never -i $FILE | cut -d' ' -f1))
++    INODE_CLIENT=$(trimWhiteSpace $(executeInAppSync "ls --color=never -i $FILE | cut -d' ' -f1" "$(dirname $FILE)"))
+     if [ "$INODE_HOST" == "$INODE_CLIENT" ]; then
+         echo "yes"
+     else
+@@ -413,9 +405,9 @@ isEqualFileOnHostAndClient() {
+ }
+ 
+ # Takes a relative file, returns an absolute file/url that should be valid on the client.
+-mapFileToClient() {
++function mapFileToClient {
+     local RELATIVE_FILE=$1
+-    FILE=$(readlink -f "$RELATIVE_FILE")
++    FILE=$(readlink -f $RELATIVE_FILE)
+     if ! [ -e "$FILE" ]; then
+         # Try opening the file anyway, it might be an url or something else we don't understand here
+         FILE=$RELATIVE_FILE
+@@ -427,13 +419,11 @@ mapFileToClient() {
+             if [ "$(isEqualFileOnHostAndClient "$FILE")" != "yes" ]; then
+                     # We can eventually map the file using the fish protocol
+                     FISH_HOST=$KDEV_SSH_FORWARD_CHAIN
+-                    case $FISH_HOST in
+-                    *\,*)
++                    if [[ "$FISH_HOST" == *\,* ]]; then
+                         # Extracts everything before the first comma
+                         FISH_HOST=$(echo $FISH_HOST | sed 's/\([^,]*\),\(.*\)/\1/')
+                         echo "ssh chain is too long: $KDEV_SSH_FORWARD_CHAIN mapping anyway using $FISH_HOST" 1>&2
+-                        ;;
+-                    esac
++                    fi
+                     # Theoretically, we can only map through fish if the forward-chains contains no comma, which means that
+                     # we forward only once. Try anyway, there might be the same filesystem on the whole forward-chain.
+                     FILE="fish://$FISH_HOST$FILE"
+@@ -443,8 +433,7 @@ mapFileToClient() {
+     echo $FILE
+ }
+ 
+-open!() {
+-    # would break on files with whitespace in names
++function open! {
+     FILES=$@
+     NEWFILES=""
+     for RELATIVE_FILE in $FILES; do
+@@ -459,8 +448,7 @@ open!() {
+     openDocuments "$NEWFILES"
+ }
+ 
+-eopen!() {
+-    # would break on files with whitespace in names
++function eopen! {
+     FILES=$@
+     for RELATIVE_FILE in $FILES; do
+         FILE=$(mapFileToClient $RELATIVE_FILE)
+@@ -468,8 +456,7 @@ eopen!() {
+     done
+ }
+ 
+-exec!() {
+-    # would break on files with whitespace in names
++function exec! {
+     FILES=$@
+     ARGS=""
+     for RELATIVE_FILE in $FILES; do
+@@ -485,16 +472,15 @@ exec!() {
+     executeInApp "$ARGS"
+ }
+ 
+-copytohost!() {
++function copytohost! {
+     executeInApp "kioclient copy $1 $(mapFileToClient $2)"
+ }
+ 
+-copytoclient!() {
++function copytoclient! {
+     executeInApp "kioclient copy $(mapFileToClient $1) $2"
+ }
+ 
+-cexec!() {
+-    # would break on files with whitespace in names
++function cexec! {
+     FILES=$@
+     ARGS=""
+     PREFIX=""
+@@ -522,9 +508,9 @@ cexec!() {
+     executeInApp "$PREFIX $ARGS"
+ }
+ 
+-create!() {
+-    FILE=$(readlink -f "$1")
+-    if [ -z "$FILE" ]; then
++function create! {
++    FILE=$(readlink -f $1)
++    if ! [ "$FILE" ]; then
+         echo "Error: Bad arguments."
+         return 1
+     fi
+@@ -532,12 +518,12 @@ create!() {
+         echo "The file $FILE already exists"
+         return 2
+     fi
+-    echo "$2" > $FILE
++    echo $2 > $FILE
+ 
+     openDocument $(mapFileToClient $FILE)
+ }
+ 
+-search!() {
++function search! {
+     PATTERN=$1
+ 
+ #     if ! [ "$PATTERN" ]; then
+@@ -547,26 +533,26 @@ search!() {
+ 
+     LOCATION=$2
+ 
+-    if [ -z "$LOCATION" ]; then
++    if ! [ "$LOCATION" ]; then
+         LOCATION="."
+     fi
+ 
+-    LOCATION=$(mapFileToClient "$LOCATION")
++    LOCATION=$(mapFileToClient $LOCATION)
+ 
+-    for LOC in "$@"; do
+-        if [ "X$LOC" == "X$1" ]; then
++    for LOC in $*; do
++        if [ "$LOC" == "$1" ]; then
+             continue;
+         fi
+-        if [ "X$LOC" == "X$2" ]; then
++        if [ "$LOC" == "$2" ]; then
+             continue;
+         fi
+-        LOCATION="$LOCATION;$(mapFileToClient "$LOC")"
++        LOCATION="$LOCATION;$(mapFileToClient $LOC)"
+     done
+ 
+-    qdbus "$KDEV_DBUS_ID" /org/kdevelop/GrepViewPlugin org.kdevelop.kdevelop.GrepViewPlugin.startSearch "$PATTERN" "$LOCATION" true
++    qdbus $KDEV_DBUS_ID /org/kdevelop/GrepViewPlugin org.kdevelop.kdevelop.GrepViewPlugin.startSearch "$PATTERN" "$LOCATION" true
+ }
+ 
+-dsearch!() {
++function dsearch! {
+     PATTERN=$1
+ 
+     if ! [ "$PATTERN" ]; then
+@@ -580,19 +566,19 @@ dsearch!() {
+         LOCATION="."
+     fi
+ 
+-    LOCATION=$(mapFileToClient "$LOCATION")
++    LOCATION=$(mapFileToClient $LOCATION)
+ 
+-    for LOC in "$@"; do
+-        if [ "X$LOC" == "X$1" ]; then
++    for LOC in $*; do
++        if [ "$LOC" == "$1" ]; then
+             continue;
+         fi
+-        if [ "X$LOC" == "X$2" ]; then
++        if [ "$LOC" == "$2" ]; then
+             continue;
+         fi
+-        LOCATION="$LOCATION;$(mapFileToClient "$LOC")"
++        LOCATION="$LOCATION;$(mapFileToClient $LOC)"
+     done
+ 
+-    qdbus "$KDEV_DBUS_ID" /org/kdevelop/GrepViewPlugin org.kdevelop.kdevelop.GrepViewPlugin.startSearch "$PATTERN" "$LOCATION" false
++    qdbus $KDEV_DBUS_ID /org/kdevelop/GrepViewPlugin org.kdevelop.kdevelop.GrepViewPlugin.startSearch "$PATTERN" "$LOCATION" false
+ }
+ 
+ ##### SSH DBUS FORWARDING --------------------------------------------------------------------------------------------------------------------
+@@ -610,12 +596,12 @@ export DBUS_FORWARDING_TCP_MAX_LOCAL_PORT=10000
+ export DBUS_ABSTRACT_SOCKET_TARGET_INDEX=1
+ export DBUS_ABSTRACT_SOCKET_MAX_TARGET_INDEX=1000
+ 
+-getPortFromSSHCommand() {
++function getPortFromSSHCommand {
+     # The port is given to ssh exclusively in the format "-p PORT"
+     # This regular expression extracts the "4821" from "ssh -q bla1 -p 4821 bla2"
+     local ARGS=$@
+     local RET=$(echo "$@" | sed "s/.*-p \+\([0-9]*\).*/\1/")
+-    if [ "X$ARGS" == "X$RET" ]; then
++    if [ "$ARGS" == "$RET" ]; then
+         # There was no match
+         echo ""
+     else
+@@ -623,12 +609,12 @@ getPortFromSSHCommand() {
+     fi
+ }
+ 
+-getLoginFromSSHCommand() {
++function getLoginFromSSHCommand {
+     # The login name can be given to ssh in the format "-l NAME"
+     # This regular expression extracts the "NAME" from "ssh -q bla1 -l NAME bla2"
+     local ARGS=$@
+     local RET=$(echo "$ARGS" | sed "s/.*-l \+\([a-z,A-Z,_,0-9]*\).*/\1/")
+-    if [ "X$RET" == "X$ARGS" -o -z "$RET" ]; then
++    if [ "$RET" == "$ARGS" ] || [ "$RET" == "" ]; then
+         # There was no match
+         echo ""
+     else
+@@ -636,26 +622,25 @@ getLoginFromSSHCommand() {
+     fi
+ }
+ 
+-getHostFromSSHCommand() {
++function getHostFromSSHCommand {
+     # This regular expression extracts the "bla2" from "echo "ssh -q bla1 -p 4821 bla2"
+     # Specifically, it finds the first argument which is not preceded by a "-x" parameter kind specification.
+-    # XXX This will break if you'd call, say, "ssh -v host ..."
+ 
+     local CLEANED=""
+     local NEWCLEANED="$@"
+ 
+-    while ! [ "X$NEWCLEANED" == "X$CLEANED" ]; do
++    while ! [ "$NEWCLEANED" == "$CLEANED" ]; do
+         CLEANED="$NEWCLEANED"
+     # This expression removes one "-x ARG" parameter
+-        NEWCLEANED="$(echo "$CLEANED" | sed "s/\(.*\)\(-[a-z,A-Z] \+[a-z,0-9]*\)\ \(.*\)/\1\3/")"
++        NEWCLEANED="$(echo $CLEANED | sed "s/\(.*\)\(-[a-z,A-Z] \+[a-z,0-9]*\)\ \(.*\)/\1\3/")"
+     done
+ 
+     # After cleaning, the result should only consist of the host-name followed by an optional command.
+     # Select the host-name, by extracting the forst column.
+-    echo "$CLEANED" | cut -d" " -f 1
++    echo $CLEANED | cut --delimiter=" " -f 1
+ }
+ 
+-getSSHForwardOptionsFromCommand() {
++function getSSHForwardOptionsFromCommand {
+ 
+     HOST="$(getLoginFromSSHCommand "$@")$(getHostFromSSHCommand "$@")$(getPortFromSSHCommand "$@")"
+ 
+@@ -668,13 +653,13 @@ getSSHForwardOptionsFromCommand() {
+     fi
+ }
+ 
+-getDBusAbstractSocketSuffix() {
++function getDBusAbstractSocketSuffix {
+     # From something like DBUS_SESSION_BUS_ADDRESS=unix:abstract=/tmp/dbus-wYmSkVH7FE,guid=b214dad39e0292a4299778d64d761a5b
+     # extract the /tmp/dbus-wYmSkVH7FE
+     echo $DBUS_SESSION_BUS_ADDRESS | sed 's/unix\:abstract\=.*\(,guid\=.*\)/\1/'
+ }
+ 
+-keepForwardingDBusToTCPSocket() {
++function keepForwardingDBusToTCPSocket {
+     while ! $KDEV_BASEDIR/kdev_dbus_socket_transformer $DBUS_FORWARDING_TCP_LOCAL_PORT --bind-only; do
+         if (($DBUS_FORWARDING_TCP_LOCAL_PORT<$DBUS_FORWARDING_TCP_MAX_LOCAL_PORT)); then
+             export DBUS_FORWARDING_TCP_LOCAL_PORT=$(($DBUS_FORWARDING_TCP_LOCAL_PORT+1))
+@@ -689,7 +674,7 @@ keepForwardingDBusToTCPSocket() {
+     return 0;
+ }
+ 
+-keepForwardingDBusFromTCPSocket() {
++function keepForwardingDBusFromTCPSocket {
+ 
+     while ! $KDEV_BASEDIR/kdev_dbus_socket_transformer $FORWARD_DBUS_FROM_PORT ${DBUS_ABSTRACT_SOCKET_TARGET_BASE_PATH}-${DBUS_ABSTRACT_SOCKET_TARGET_INDEX} --bind-only; do
+         if ((${DBUS_ABSTRACT_SOCKET_TARGET_INDEX}<${DBUS_ABSTRACT_SOCKET_MAX_TARGET_INDEX})); then
+@@ -705,12 +690,11 @@ keepForwardingDBusFromTCPSocket() {
+     $KDEV_BASEDIR/kdev_dbus_socket_transformer $FORWARD_DBUS_FROM_PORT $PATH&
+ }
+ 
+-ssh! () {
+-    # XXX This entire function is broken by design
++function ssh! {
+     keepForwardingDBusToTCPSocket # Start the dbus forwarding subprocess
+     DBUS_FORWARDING_TCP_TARGET_PORT=$((5000+($RANDOM%50000)))
+ 
+-    ssh "$@" -t -R localhost:$DBUS_FORWARDING_TCP_TARGET_PORT:localhost:$DBUS_FORWARDING_TCP_LOCAL_PORT \
++    ssh $@ -t -R localhost:$DBUS_FORWARDING_TCP_TARGET_PORT:localhost:$DBUS_FORWARDING_TCP_LOCAL_PORT \
+          " APPLICATION=$APPLICATION \
+            KDEV_BASEDIR=$KDEV_BASEDIR \
+            KDEV_DBUS_ID=$KDEV_DBUS_ID \
+@@ -742,17 +726,17 @@ ssh! () {
+ }
+ 
+ # A version of ssh! that preserves the current working directory
+-ssw! () {
++function ssw! {
+     KDEV_WORKING_DIR=$(pwd)
+-    ssh! "$@"
++    ssh! $@
+ }
+ 
+-env! () {
++function env! {
+     FILES="$(executeInAppSync "ls $(getSessionDir)/*.sh" "")"
+     for FILE in $FILES; do
+-        FILE=$(basename "$FILE")
++        FILE=$(basename $FILE)
+         ID=${FILE%.sh} # This ugly construct strips away the .sh suffix
+-        if [ "X$ID" == "X$KDEV_SHELL_ENVIRONMENT_ID" ]; then
++        if [ "$ID" == "$KDEV_SHELL_ENVIRONMENT_ID" ]; then
+             echo "$ID   [current]"
+         else
+             echo "$ID"
+@@ -760,7 +744,7 @@ env! () {
+     done
+ }
+ 
+-editenv! () {
++function editenv! {
+     local ENV_ID=$KDEV_SHELL_ENVIRONMENT_ID
+     if [ "$1" ]; then
+         ENV_ID=$1
+@@ -771,7 +755,7 @@ editenv! () {
+     openDocument "$(getCurrentShellEnvPath $ENV_ID)"
+ }
+ 
+-setenv! () {
++function setenv! {
+     if [ "$1" ]; then
+         KDEV_SHELL_ENVIRONMENT_ID=$1
+     fi
+@@ -789,9 +773,9 @@ setenv! () {
+     rm $TEMP
+ }
+ 
+-showenv! () {
++function showenv! {
+     local ENV_ID=$KDEV_SHELL_ENVIRONMENT_ID
+-    if [ -n "$1" ]; then
++    if [ "$1" ]; then
+         ENV_ID=$1
+     fi
+ 
+@@ -801,13 +785,13 @@ showenv! () {
+     echo $(executeInAppSync "cat \"$(getCurrentShellEnvPath $ENV_ID)\"" "")
+ }
+ 
+-if [ -n "$FORWARD_DBUS_FROM_PORT" ]; then
++if [ "$FORWARD_DBUS_FROM_PORT" ]; then
+     # Start the target-side dbus forwarding, transforming from the ssh pipe to the abstract unix domain socket
+     export DBUS_SESSION_BUS_ADDRESS=unix:abstract=${DBUS_ABSTRACT_SOCKET_TARGET_BASE_PATH}-${DBUS_ABSTRACT_SOCKET_TARGET_INDEX}${DBUS_SOCKET_SUFFIX}
+     keepForwardingDBusFromTCPSocket
+ fi
+ 
+-"setenv!"
++setenv!
+ 
+ ##### INITIALIZATION --------------------------------------------------------------------------------------------------------------------
+ 
+@@ -816,6 +800,6 @@ PS1="!$PS1"
+ 
+ echo "You are controlling the $APPLICATION session '$(getSessionName)'. Type help! for more information."
+ 
+-if [ -n "$KDEV_WORKING_DIR" ]; then
+-    cd -- "$KDEV_WORKING_DIR"
++if [ "$KDEV_WORKING_DIR" ]; then
++    cd $KDEV_WORKING_DIR
+ fi
