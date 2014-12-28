@@ -23,7 +23,7 @@ BuildRequires:	QtNetwork-devel >= %{qtver}
 BuildRequires:	automoc4
 BuildRequires:	boost-devel
 BuildRequires:	cmake >= 2.8.9
-BuildRequires:	gettext-devel
+BuildRequires:	gettext-tools
 BuildRequires:	grantlee-devel
 BuildRequires:	kde4-kdelibs-devel >= %{kdever}
 BuildRequires:	libstdc++-devel
