@@ -4,20 +4,19 @@
 
 %define		_state		stable
 %define		orgname		kdevplatform
-%define		_kdevelopver	4.7.0
+%define		_kdevelopver	4.7.1
 %define		kdever		4.8.0
 %define		qtver		4.8.0
 
 Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
-Version:	1.7.0
-Release:	2
+Version:	1.7.1
+Release:	1
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	ftp://ftp.kde.org/pub/kde/%{_state}/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.xz
-# Source0-md5:	72375e077f97b44056c76c7f85ce49ad
-Patch0:		%{name}-stable.patch
+# Source0-md5:	f6c123d65ae8d5c50944d548c8bc812f
 URL:		http://www.kdevelop.org/
 BuildRequires:	QtNetwork-devel >= %{qtver}
 BuildRequires:	automoc4
@@ -66,8 +65,6 @@ pisaniu własnych programów wykorzystujących kdevplatform.
 
 %prep
 %setup -q -n %{orgname}-%{version}
-
-%patch0 -p1
 
 %build
 install -d build
