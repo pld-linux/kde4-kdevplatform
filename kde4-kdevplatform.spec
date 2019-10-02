@@ -12,7 +12,7 @@ Summary:	KDevelop Development Platform
 Summary(pl.UTF-8):	KDevelop Development Platform
 Name:		kde4-kdevplatform
 Version:	1.7.3
-Release:	2
+Release:	3
 License:	GPL
 Group:		X11/Development/Tools
 Source0:	http://download.kde.org/stable/kdevelop/%{_kdevelopver}/src/%{orgname}-%{version}.tar.bz2
